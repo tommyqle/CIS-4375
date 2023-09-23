@@ -1,6 +1,6 @@
 import flask
 import json
-from flask import request, make_response
+from flask import request, make_response, jsonify
 from sql import create_connection, execute_query, execute_read_query
 import creds
 
@@ -9,7 +9,7 @@ import creds
 # pip install npm
 # npm install flask
 # Run by:
-# python test.py
+# python
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -18,17 +18,20 @@ app.config["DEBUG"] = True
 myCreds = creds.Creds()
 conn = create_connection(myCreds.conString, myCreds.userName, myCreds.password, myCreds.dbName)
 
+# View table in database
+@app.route('/api/testview', methods=['GET'])
+def test_view():
+    tableSelect = "test"
+    sqlSelect = "SELECT * FROM %s" % (tableSelect)
+    viewTable = execute_read_query(conn, sqlSelect)
+    return jsonify(viewTable)
+
 # Test input data to database
-testData = [
-    {"name": "Hussain"}
-]
-
-@app.route('/api/test', methods=['POST'])
+@app.route('/api/testadd', methods=['POST'])
 def testAdd():
-    test_dict = json.load(testData)
-    newName = test_dict['name']
+    testData = request.json.get("name")
 
-    post_statement = "INSERT INTO test (name) VALUES ('%s')" % (newName)
+    post_statement = "INSERT INTO test (name) VALUES ('%s')" % (testData)
     execute_query(conn, post_statement)
     return "Successfully added!"
 
