@@ -4,6 +4,11 @@ from flask import request, make_response
 from sql import create_connection, execute_query, execute_read_query
 import creds
 
+# Before first run do:
+# pip install mysql.connector
+# pip install npm
+# npm install flask
+
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
