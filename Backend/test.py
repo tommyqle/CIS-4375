@@ -8,6 +8,8 @@ import creds
 # pip install mysql.connector
 # pip install npm
 # npm install flask
+# Run by:
+# python test.py
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
