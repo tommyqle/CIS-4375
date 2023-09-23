@@ -16,7 +16,7 @@ testData = [
     {"name": "Hussain"}
 ]
 
-@app.route('/', methods=['POST'])
+@app.route('/api/test', methods=['POST'])
 def testAdd():
     test_dict = json.load(testData)
     newName = test_dict['name']
