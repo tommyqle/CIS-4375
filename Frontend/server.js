@@ -14,6 +14,10 @@ app.get('/', function(req, res) {
     res.render('pages/index')
 });
 
+app.get('/overview', function(req, res) {
+    res.render('pages/overview')
+});
+
 // Login process
 app.post('/process_login', function(req,res){
     var username = req.body.username;
@@ -25,7 +29,7 @@ app.post('/process_login', function(req,res){
     }
     else
     {
-        res.render('pages/index', {
+        res.render('pages/overview', {
             auth: false,
             attempt: true
         });    
