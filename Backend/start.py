@@ -3,7 +3,7 @@
 # pip install npm
 # npm install flask
 # Run by:
-# python test.py
+# python start.py
 
 import flask
 import json
