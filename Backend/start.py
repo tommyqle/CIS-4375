@@ -42,20 +42,21 @@ def usernamepw():
             return 'SUCCESS!'
         return 'INVALID LOGIN'
 
-# View table in database
-@app.route('/api/testview', methods=['GET'])
-def test_view():
-    tableSelect = "test"
-    sqlSelect = "SELECT * FROM %s" % (tableSelect)
+# View inventory table in database
+@app.route('/api/inventory', methods=['GET'])
+def viewInven():
+    sqlSelect = "SELECT * FROM inventory"
     viewTable = execute_read_query(conn, sqlSelect)
     return jsonify(viewTable)
 
-# Test input data to database
-@app.route('/api/testadd', methods=['POST'])
-def testAdd():
-    testData = request.json.get("name")
+# Add to inventory table in database
+@app.route('/api/add_inventory', methods=['POST'])
+def addInven():
+    category = request.json.get("category")
+    item = request.json.get("item")
+    price = request.json.get("price")
 
-    post_statement = "INSERT INTO test (name) VALUES ('%s')" % (testData)
+    post_statement = "INSERT INTO inventory (category, item, price) VALUES ('%s','%s','%s')" % (category, item, price)
     execute_query(conn, post_statement)
     return "Successfully added!"
 
