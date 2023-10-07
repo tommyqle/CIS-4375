@@ -5,6 +5,7 @@
 # Run by:
 # python start.py
 
+import hashlib
 import flask
 import json
 from flask import request, make_response, jsonify
@@ -18,6 +19,33 @@ app.config["DEBUG"] = True
 myCreds = creds.Creds()
 conn = create_connection(myCreds.conString, myCreds.userName, myCreds.password, myCreds.dbName)
 
+# Login with Password
+@app.route('/api/login', methods=['GET'])
+def usernamepw():
+    # SQL query to put all users in a list
+    sqlSelect = "SELECT * FROM users"
+    authorizedusers = execute_read_query(conn, sqlSelect)
+
+    # Get username/password from frontend
+    authentication = request.get_json()
+
+    # Set variables from frontend json
+    username = authentication['username']
+    password = authentication['password']
+    # SHA256 Hash password
+    hashedPassword = hashlib.sha256(password.encode())
+
+    # Check against all users for match on both username/password
+    for auth in authorizedusers:
+        # If username matches and decrypted password matches
+        if auth['username'] == username and auth['password'] == hashedPassword.hexdigest():
+            return 'SUCCESS!'
+        return 'INVALID LOGIN'
+
+# View inventory table in database
+@app.route('/api/inventory', methods=['GET'])
+def viewInven():
+    sqlSelect = "SELECT * FROM inventory"
 # View table in database
 @app.route('/overview', methods=['GET'])
 def test_view():
@@ -26,12 +54,14 @@ def test_view():
     viewTable = execute_read_query(conn, sqlSelect)
     return jsonify(viewTable)
 
-# Test input data to database
-@app.route('/api/testadd', methods=['POST'])
-def testAdd():
-    testData = request.json.get("name")
+# Add to inventory table in database
+@app.route('/api/add_inventory', methods=['POST'])
+def addInven():
+    category = request.json.get("category")
+    item = request.json.get("item")
+    price = request.json.get("price")
 
-    post_statement = "INSERT INTO test (name) VALUES ('%s')" % (testData)
+    post_statement = "INSERT INTO inventory (category, item, price) VALUES ('%s','%s','%s')" % (category, item, price)
     execute_query(conn, post_statement)
     return "Successfully added!"
 
