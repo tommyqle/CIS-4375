@@ -34,7 +34,7 @@ app.post('/process_login', function(req,res){
 
     if(username === 'user' && password === 'verysecurepassword')
     {   
-        axios.get(`http://127.0.0.1:5000/api/testview`)
+        axios.get(`http://127.0.0.1:5000/api/inventory`)
     }
     else
     {
