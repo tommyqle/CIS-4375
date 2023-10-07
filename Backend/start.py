@@ -5,6 +5,7 @@
 # Run by:
 # python start.py
 
+import hashlib
 import flask
 import json
 from flask import request, make_response, jsonify
@@ -17,6 +18,29 @@ app.config["DEBUG"] = True
 # Create connection to MySQL database
 myCreds = creds.Creds()
 conn = create_connection(myCreds.conString, myCreds.userName, myCreds.password, myCreds.dbName)
+
+# Login with Password
+@app.route('/api/login', methods=['GET'])
+def usernamepw():
+    # SQL query to put all users in a list
+    sqlSelect = "SELECT * FROM users"
+    authorizedusers = execute_read_query(conn, sqlSelect)
+
+    # Get username/password from frontend
+    authentication = request.get_json()
+
+    # Set variables from frontend json
+    username = authentication['username']
+    password = authentication['password']
+    # SHA256 Hash password
+    hashedPassword = hashlib.sha256(password.encode())
+
+    # Check against all users for match on both username/password
+    for auth in authorizedusers:
+        # If username matches and decrypted password matches
+        if auth['username'] == username and auth['password'] == hashedPassword.hexdigest():
+            return 'SUCCESS!'
+        return 'INVALID LOGIN'
 
 # View table in database
 @app.route('/api/testview', methods=['GET'])
