@@ -12,6 +12,19 @@
     <h1>
         OVERVIEW PAGES TEST
     </h1>
+    <p class="m-4"> Here is the current inventory view: </p>
+
+    <% if (locals.data) { %>
+        <table class="table">
+            <thread>
+                <tr>
+                    <th scope="col">Category</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                </tr>
+            </thread>
+        </table>
+    <% } %>
 </body>
 
 <footer>

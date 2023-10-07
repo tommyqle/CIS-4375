@@ -19,9 +19,9 @@ myCreds = creds.Creds()
 conn = create_connection(myCreds.conString, myCreds.userName, myCreds.password, myCreds.dbName)
 
 # View table in database
-@app.route('/api/testview', methods=['GET'])
+@app.route('/overview', methods=['GET'])
 def test_view():
-    tableSelect = "test"
+    tableSelect = "inventory"
     sqlSelect = "SELECT * FROM %s" % (tableSelect)
     viewTable = execute_read_query(conn, sqlSelect)
     return jsonify(viewTable)
