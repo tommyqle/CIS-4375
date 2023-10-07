@@ -12,6 +12,32 @@
     <h1>
         OVERVIEW PAGES TEST
     </h1>
+    <p class="m-4"> Here is the current inventory view: </p>
+
+    <% if (locals.data) { %>
+        <table class="table">
+            <thread>
+                <tr>
+                    <th scope="col">Item</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Supplier</th>
+                    <th scope="col">Price</th>
+                </tr>
+            </thread>
+            <tbody>
+                <% locals.data.forEach(function(data) { %>
+                    <tr>
+                        <td scope="row"><%= data.item %></td>
+                        <td scope="row"><%= data.category %></td>
+                        <td scope="row"><%= data.quantity %></td>
+                        <td scope="row"><%= data.supplier %></td>
+                        <td scope="row"><%= data.price %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
 </body>
 
 <footer>

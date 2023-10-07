@@ -46,6 +46,11 @@ def usernamepw():
 @app.route('/api/inventory', methods=['GET'])
 def viewInven():
     sqlSelect = "SELECT * FROM inventory"
+# View table in database
+@app.route('/overview', methods=['GET'])
+def test_view():
+    tableSelect = "inventory"
+    sqlSelect = "SELECT * FROM %s" % (tableSelect)
     viewTable = execute_read_query(conn, sqlSelect)
     return jsonify(viewTable)
 

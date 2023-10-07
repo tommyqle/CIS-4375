@@ -1,8 +1,9 @@
 var express = require('express');
 var app = express();
+const bodyParser  = require('body-parser');
+const axios = require('axios');
 
-
-
+app.use(bodyParser.urlencoded());
 
 
 // set the view engine to ejs
@@ -15,7 +16,15 @@ app.get('/', function(req, res) {
 });
 
 app.get('/overview', function(req, res) {
-    res.render('pages/overview')
+    axios.get('http://127.0.0.1:5000/overview')
+    .then((response)=>{
+        var data = response.data;
+        
+        res.render('pages/overview', {
+            data: data
+    })
+    
+    })
 });
 
 // Login process
