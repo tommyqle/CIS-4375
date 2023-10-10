@@ -5,12 +5,12 @@
 # Run by:
 # python start.py
 
-import hashlib
+import creds
 import flask
+import hashlib
 import json
 from flask import request, make_response, jsonify
 from sql import create_connection, execute_query, execute_read_query
-import creds
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -23,8 +23,8 @@ conn = create_connection(myCreds.conString, myCreds.userName, myCreds.password, 
 @app.route('/api/login', methods=['GET'])
 def usernamepw():
     # SQL query to put all users in a list
-    sqlSelect = "SELECT * FROM users"
-    authorizedusers = execute_read_query(conn, sqlSelect)
+    sqlStatement = "SELECT * FROM users"
+    authorizedusers = execute_read_query(conn, sqlStatement)
 
     # Get username/password from frontend
     authentication = request.get_json()
@@ -45,13 +45,16 @@ def usernamepw():
 # View inventory table in database
 @app.route('/api/inventory', methods=['GET'])
 def viewInven():
-    sqlSelect = "SELECT * FROM inventory"
+    sqlStatement = "SELECT * FROM inventory"
+    viewTable = execute_read_query(conn, sqlStatement)
+    return jsonify(viewTable)
+
 # View table in database
 @app.route('/overview', methods=['GET'])
 def test_view():
     tableSelect = "inventory"
-    sqlSelect = "SELECT * FROM %s" % (tableSelect)
-    viewTable = execute_read_query(conn, sqlSelect)
+    sqlStatement = "SELECT * FROM %s" % (tableSelect)
+    viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
 # Add to inventory table in database
@@ -61,9 +64,32 @@ def addInven():
     item = request.json.get("item")
     price = request.json.get("price")
 
-    post_statement = "INSERT INTO inventory (category, item, price) VALUES ('%s','%s','%s')" % (category, item, price)
-    execute_query(conn, post_statement)
+    sqlStatement = "INSERT INTO inventory (category, item, price) VALUES ('%s','%s','%s')" % (category, item, price)
+    execute_query(conn, sqlStatement)
     return "Successfully added!"
+
+# Update to inventory table in database
+@app.route('/api/update_inventory', methods=['POST'])
+def updateInven():
+    category = request.json.get("category")
+    item = request.json.get("item")
+    price = request.json.get("price")
+# Not finished
+    sqlStatement = "UPDATE inventory SET category = '%s' WHERE id = CHANGEME" % (category)
+    execute_query(conn, sqlStatement)
+    return "Updated!"
+
+# Delete from inventory table
+@app.route('/api/del_inventory', methods=['DELETE'])
+def delInven():
+    category = request.json.get("category")
+
+    sqlStatement = "DELETE FROM inventory WHERE category = '%s'" % (category)
+    execute_query(conn, sqlStatement)
+    return "Deleted!"
 
 
 app.run()
+
+# References
+# CIS3368 Code
