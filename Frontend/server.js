@@ -4,7 +4,7 @@ const bodyParser  = require('body-parser');
 const axios = require('axios');
 
 app.use(bodyParser.urlencoded());
-
+app.use(express.static('views'));
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');

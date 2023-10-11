@@ -9,29 +9,32 @@
 
   <!-- Page header -->
   <header>
-      <h1 class="m-5 text-center">App name placeholder</h1>
-      <h4 class="m-5 text-center">Inventory System</h4>
+      <div class="text-center">
+        <img class="img-fluid" src="../img/Orderly4.png">
+      </div>
   </header>
 
-    <div class="row align-items-center justify-content-center">
-      <div class="col-md-4">
-        <div class="card shadow-lg">
+    <!-- Login card -->
+        <div class="card shadow-lg mx-auto" style="width: 25rem;">
+          
+          <h5 class="m-4 text-center text-primary">Welcome to Orderly. <br> Please sign in to begin.</h5>
+
           <form action="/process_login" method="post">
-            <!-- Email input -->
+            <!-- Username input -->
             <div class="form-outline m-4">
-              <input type="username" id="form2Example1" class="form-control" />
-              <label class="form-label" for="form2Example1">Username</label>
+              <input type="username" id="usernameform" class="form-control" placeholder="Username" required />
+              <label class="form-label" for="usernameform"></label>
             </div>
 
             <!-- Password input -->
             <div class="form-outline m-4">
-              <input type="password" id="form2Example2" class="form-control" />
-              <label class="form-label" for="form2Example2">Password</label>
+              <input type="password" id="passwordform" class="form-control" placeholder="Password" required />
+              <label class="form-label" for="passwordform"></label>
             </div>
 
             <!-- Submit button -->
-            <div class="d-grid col-8 mx-auto">
-              <button type="submit" class="btn btn-primary btn-block m-4">Log in</button>
+            <div class="d-grid col-12 mx-auto">
+              <button type="submit" class="btn btn-block m-4" style="background-color: #38b6ff; color: white;">Log in</button>
             </div>
           </form>
         </div>
