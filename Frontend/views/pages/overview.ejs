@@ -8,29 +8,30 @@
 <body>
     <div class="container-fluid">
         <div class="row flex-nowrap">
-            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0" style="background-color: #333333;">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                    <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                        <span class="fs-5 d-none d-sm-inline">Menu</span>
+                    <a href="/" class="d-flex mx-auto">
+                        <img src="../img/countify3.png" class="mx-auto">
                     </a>
                     <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                         <li class="nav-item">
-                            <a href="#" class="nav-link align-middle px-0">
-                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                            <a href="#" class="nav-link align-middle px-0" style="color:#8bd0bd">
+                                <i class="fs-4 bi bi-clipboard-check"></i> <span class="ms-1 d-none d-sm-inline">Overview</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link align-middle px-0" href="/overview">
-                                <i class="bi bi-1-circle-fill"></i> <span class="ms-1 d-none d-sm-inline">Add Inventory Item</span>
+                            <a class="nav-link align-middle px-0" href="/overview" style="color:#8bd0bd">
+                                <i class="fs-4 bi bi-plus-square"></i> <span class="ms-1 d-none d-sm-inline">Add Inventory Item</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link px-0 align-middle">
-                                <i class="fs-0 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
+                            <a href="#" class="nav-link px-0 align-middle" style="color:#8bd0bd">
+                                <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
                         </li>
                     </ul>
                     <hr>
-                    <a class="nav-link bi-box-arrow-right mb-4" href="/"> Log out</a>
+                    <a href="#" class="nav-link px-0 align-middle mb-4" style="color:white">
+                        <i class="fs-4 bi bi-box-arrow-right"></i> <span class="ms-1 d-none d-sm-inline">Log out</span></a>
                 </div>
             </div>
             <!-- CONTENT AREA BEGINS -->
@@ -59,7 +60,7 @@
                                     <td scope="row"><%= data.category %></td>
                                     <td scope="row"><%= data.quantity %></td>
                                     <td scope="row"><%= data.supplier %></td>
-                                    <td scope="row"><%= data.price %></td>
+                                    <td scope="row">$<%= data.price %></td>
                                 </tr>
                             <% }) %>
                         </tbody>
@@ -81,4 +82,5 @@
 
 <!-- References Used
     https://dev.to/codeply/bootstrap-5-sidebar-examples-38pb
+    https://icons.getbootstrap.com/
 -->
