@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0" style="background-color: #243665;">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                    <a href="/" class="d-flex mx-auto">
+                        <img src="../img/countify3.png" class="mx-auto">
+                    </a>
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                        <li class="nav-item">
+                            <a href="/overview" class="nav-link align-middle px-0" style="color:#8bd0bd">
+                                <i class="fs-4 bi bi-clipboard-check"></i> <span class="ms-1 d-none d-sm-inline">Inventory Overview</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/sugarland" class="nav-link align-middle px-0" style="color:#8bd0bd">
+                                <i class="fs-4 bi bi-1-circle"></i> <span class="ms-1 d-none d-sm-inline">Sugar Land Inventory</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/montrose" class="nav-link px-0 align-middle" style="color:#8bd0bd">
+                                <i class="fs-4 bi bi-2-circle"></i> <span class="ms-1 d-none d-sm-inline">Montrose Inventory</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <hr>
+                    <a href="#" class="nav-link px-0 align-middle mb-4" style="color:white">
+                        <i class="fs-4 bi bi-box-arrow-right"></i> <span class="ms-1 d-none d-sm-inline">Log out</span>
+                    </a>
+                </div>
+            </div>
+            <!-- CONTENT AREA BEGINS -->
+            <div class="col py-3">
+                <h1 class="m-4">
+                    Sugar land inventory page
+                </h1>
+                
+                <p class="m-4"> Here is the current inventory view: </p>
+            
+                
+            </div>
+            <!-- CONTENT AREA ENDS -->
+        </div>
+    </div>
+</body>
+
+
+<footer>
+    <%- include('../partials/footer'); %>
+</footer>
+
+</html>
+
+
+<!-- References Used
+    https://dev.to/codeply/bootstrap-5-sidebar-examples-38pb
+    https://icons.getbootstrap.com/
+-->

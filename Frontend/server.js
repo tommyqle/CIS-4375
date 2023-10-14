@@ -27,6 +27,39 @@ app.get('/overview', function(req, res) {
     })
 });
 
+app.get('/sugarland', function(req, res) {
+    res.render('pages/sugarland')
+});
+
+app.get('/montrose', function(req, res) {
+    res.render('pages/montrose')
+});
+
+/*
+app.get('/sugarland', function(req, res) {
+    axios.get('http://127.0.0.1:5000/sugarland')
+    .then((response)=>{
+        var data = response.data;
+        
+        res.render('pages/sugarland', {
+            data: data
+    })
+    
+    })
+});
+
+app.get('/montrose', function(req, res) {
+    axios.get('http://127.0.0.1:5000/montrose')
+    .then((response)=>{
+        var data = response.data;
+        
+        res.render('pages/montrose', {
+            data: data
+    })
+    
+    })
+});
+*/
 // Login process
 app.post('/process_login', function(req,res){
     var username = req.body.username;
