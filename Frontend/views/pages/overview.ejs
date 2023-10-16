@@ -6,80 +6,77 @@
 </head>
 
 <body>
-    <div>
-        <div class="row g-0 flex-nowrap">
-            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0" style="background-color: #243665;">
-                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                    <a href="/overview" class="d-flex mx-auto">
-                        <img src="../img/countifysidebar.png" width="180" height="90" class="mx-auto" alt="Countify Home">
-                    </a>
-                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                        <li class="nav-item">
-                            <a href="/overview" class="nav-link align-middle px-0" style="color:#8bd8bd">
-                                <i class="fs-4 bi bi-clipboard-check"></i> <span class="ms-1 d-none d-sm-inline">Inventory Overview</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/sugarland" class="nav-link align-middle px-0" style="color:#8bd8bd">
-                                <i class="fs-4 bi bi-1-circle"></i> <span class="ms-1 d-none d-sm-inline">Sugar Land Inventory</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/montrose" class="nav-link px-0 align-middle" style="color:#8bd8bd">
-                                <i class="fs-4 bi bi-2-circle"></i> <span class="ms-1 d-none d-sm-inline">Montrose Inventory</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link px-0 align-middle" style="color:#8bd8bd">
-                                <i class="fs-4 bi bi-2-circle"></i> <span class="ms-1 d-none d-sm-inline">Edit Inventory</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <hr>
-                    <a href="#" class="nav-link px-0 align-middle mb-4" style="color:white">
-                        <i class="fs-4 bi bi-box-arrow-right"></i> <span class="ms-1 d-none d-sm-inline">Log out</span>
-                    </a>
-                </div>
+    <div class="row g-0 flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0" style="background-color: #243665;">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                <a href="/overview" class="d-flex mx-auto">
+                    <img src="../img/countify_sidebar.png" width="180" height="90" class="mx-auto" loading="lazy">
+                </a>
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                    <li class="nav-item">
+                        <a href="/overview" class="nav-link align-middle px-0" style="color:#8bd8bd">
+                            <i class="fs-4 bi bi-clipboard-check"></i> <span class="ms-1 d-none d-sm-inline">Inventory Overview</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/sugarland" class="nav-link align-middle px-0" style="color:#8bd8bd">
+                            <i class="fs-4 bi bi-1-circle"></i> <span class="ms-1 d-none d-sm-inline">Sugar Land Inventory</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/montrose" class="nav-link px-0 align-middle" style="color:#8bd8bd">
+                            <i class="fs-4 bi bi-2-circle"></i> <span class="ms-1 d-none d-sm-inline">Montrose Inventory</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link px-0 align-middle" style="color:#8bd8bd">
+                            <i class="fs-4 bi bi-2-circle"></i> <span class="ms-1 d-none d-sm-inline">Edit Inventory</span>
+                        </a>
+                    </li>
+                </ul>
+                <hr>
+                <a href="#" class="nav-link px-0 align-middle mb-4" style="color:white">
+                    <i class="fs-4 bi bi-box-arrow-right"></i> <span class="ms-1 d-none d-sm-inline">Log out</span>
+                </a>
             </div>
-            <!-- CONTENT AREA BEGINS -->
-            <div class="col">
-                <h1 class="p-4" style="background-color: #8bd8bd; color:#243665;">
-                    Inventory Overview
-                </h1>
-                
-                <p class="m-4"> Here is the current inventory view: </p>
-            
-                <% if (locals.data) { %>
-                    <div class="container-fluid">
-                    <table class="table">
-                        <thread>
-                            <tr style="--bs-table-bg: #8bd8bd; --bs-table-color: #243665;">
-                                <th scope="col">Item</th>
-                                <th scope="col">Category</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Supplier</th>
-                                <th scope="col">Price</th>
-                            </tr>
-                        </thread>
-                        <tbody>
-                            <% locals.data.forEach(function(data) { %>
-                                <tr>
-                                    <td scope="row"><%= data.item %></td>
-                                    <td scope="row"><%= data.category %></td>
-                                    <td scope="row"><%= data.quantity %></td>
-                                    <td scope="row"><%= data.supplier %></td>
-                                    <td scope="row">$<%= data.price %></td>
-                                </tr>
-                            <% }) %>
-                        </tbody>
-                    </table>
-                    </div>
-                <% } %>
-            </div>
-            <!-- CONTENT AREA ENDS -->
         </div>
+        <!-- CONTENT AREA BEGINS -->
+        <div class="col">
+            <h1 class="p-4" style="background-color: #8bd8bd; color:#243665;">
+                Inventory Overview
+            </h1>
+            
+            <p class="m-4"> Here is the current inventory view: </p>
+        
+            <% if (locals.data) { %>
+                <div class="container-fluid">
+                <table class="table">
+                    <thread>
+                        <tr style="--bs-table-bg: #8bd8bd; --bs-table-color: #243665;">
+                            <th scope="col">Item</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Supplier</th>
+                            <th scope="col">Price</th>
+                        </tr>
+                    </thread>
+                    <tbody>
+                        <% locals.data.forEach(function(data) { %>
+                            <tr>
+                                <td scope="row"><%= data.item %></td>
+                                <td scope="row"><%= data.category %></td>
+                                <td scope="row"><%= data.quantity %></td>
+                                <td scope="row"><%= data.supplier %></td>
+                                <td scope="row">$<%= data.price %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+                </div>
+            <% } %>
+        </div>
+        <!-- CONTENT AREA ENDS -->
     </div>
-    <p>test</p>
 </body>
 
 
