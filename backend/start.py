@@ -57,6 +57,22 @@ def test_view():
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
+# Tommy - testing sugarland inventory view table
+@app.route('/sugarland', methods=['GET'])
+def view_sugarland_inv():
+    tableSelect = "sugarInventory"
+    sqlStatement = "SELECT * FROM %s" % (tableSelect)
+    viewTable = execute_read_query(conn, sqlStatement)
+    return jsonify(viewTable)
+
+# Tommy - testing Galleria inventory view table
+@app.route('/galleria', methods=['GET'])
+def view_galleria_inv():
+    tableSelect = "galloInventory"
+    sqlStatement = "SELECT * FROM %s" % (tableSelect)
+    viewTable = execute_read_query(conn, sqlStatement)
+    return jsonify(viewTable)
+
 # Add to inventory table in database
 @app.route('/api/add_inventory', methods=['POST'])
 def addInven():
