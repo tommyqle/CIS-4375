@@ -61,22 +61,51 @@ app.get('/montrose', function(req, res) {
 });
 */
 // Login process
-app.post('/process_login', function(req,res){
+app.post('/process_login', function(req, res) {
     var username = req.body.username;
     var password = req.body.password;
+  
+    // Make a POST request to your Flask backend
+    axios.post('http://127.0.0.1:5000/api/login', {
+      username: username,
+      password: password
+    })
+    .then((response) => {
+      var result = response.data;
+      
+      if (result === 'SUCCESS!') {
+        // Redirect to the overview page if login is successful
+        res.redirect('/overview');
+      } else {
+        // Render the login page with an authentication failure message
+        res.render('pages/index', {
+          auth: false,
+          attempt: true
+        });
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      // Handle any error that occurred during the request
+    });
+  });
 
-    if(username === 'user' && password === 'verysecurepassword')
-    {   
-        axios.get(`http://127.0.0.1:5000/api/inventory`)
-    }
-    else
-    {
-        res.render('pages/overview', {
-            auth: false,
-            attempt: true
-        });    
-    }
-});
+// app.post('/process_login', function(req,res){
+//     var username = req.body.username;
+//     var password = req.body.password;
+
+//     if(username === 'user' && password === 'verysecurepassword')
+//     {   
+//         axios.get(`http://127.0.0.1:5000/api/inventory`)
+//     }
+//     else
+//     {
+//         res.render('pages/overview', {
+//             auth: false,
+//             attempt: true
+//         });    
+//     }
+// });
 
 
 app.listen(8080);

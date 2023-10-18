@@ -20,11 +20,11 @@ myCreds = creds.Creds()
 conn = create_connection(myCreds.conString, myCreds.userName, myCreds.password, myCreds.dbName)
 
 # Login with Password
-@app.route('/api/login', methods=['GET'])
+@app.route('/api/login', methods=['POST'])
 def usernamepw():
     # SQL query to put all users in a list
-    sqlStatement = "SELECT * FROM users"
-    authorizedusers = execute_read_query(conn, sqlStatement)
+    # sqlStatement = "SELECT * FROM users"
+    # authorizedusers = execute_read_query(conn, sqlStatement)
 
     # Get username/password from frontend
     authentication = request.get_json()
@@ -33,27 +33,27 @@ def usernamepw():
     username = authentication['username']
     password = authentication['password']
     # SHA256 Hash password
-    hashedPassword = hashlib.sha256(password.encode())
+    hashedPassword = hashlib.sha256(password.encode()).hexdigest()
 
-    # Check against all users for match on both username/password
-    for auth in authorizedusers:
-        # If username matches and decrypted password matches
-        if auth['username'] == username and auth['password'] == hashedPassword.hexdigest():
-            return 'SUCCESS!'
+    sqlStatement = f"SELECT * FROM users WHERE username='{username}' AND password='{hashedPassword}'"
+    auth = execute_read_query(conn, sqlStatement)
+
+    if auth:
+        return 'SUCCESS!'
+    else:
         return 'INVALID LOGIN'
 
-# View inventory table in database
-@app.route('/api/inventory', methods=['GET'])
-def viewInven():
-    sqlStatement = "SELECT * FROM inventory"
-    viewTable = execute_read_query(conn, sqlStatement)
-    return jsonify(viewTable)
+    # Check against all users for match on both username/password
+    # for auth in authorizedusers:
+    #     # If username matches and decrypted password matches
+    #     if auth['username'] == username and auth['password'] == hashedPassword:
+    #         return 'SUCCESS!'
+    #     return 'INVALID LOGIN'
 
 # View table in database
 @app.route('/overview', methods=['GET'])
 def test_view():
-    tableSelect = "inventory"
-    sqlStatement = "SELECT * FROM %s" % (tableSelect)
+    sqlStatement = "SELECT * FROM galloInventory"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
