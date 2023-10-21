@@ -43,7 +43,7 @@ def usernamepw():
 # View table in database
 @app.route('/overview', methods=['GET'])
 def test_view():
-    sqlStatement = "SELECT * FROM galloInventory"
+    sqlStatement = "SELECT * FROM product"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 

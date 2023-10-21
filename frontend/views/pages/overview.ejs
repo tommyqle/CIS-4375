@@ -67,17 +67,15 @@
                             <th scope="col">Item</th>
                             <th scope="col">Category</th>
                             <th scope="col">Quantity</th>
-                            <th scope="col">Supplier</th>
                             <th scope="col">Price</th>
                         </tr>
                     </thread>
                     <tbody>
                         <% locals.data.forEach(function(data) { %>
                             <tr>
-                                <td scope="row"><%= data.item %></td>
-                                <td scope="row"><%= data.category %></td>
+                                <td scope="row"><%= data.product_name %></td>
+                                <td scope="row"><%= data.category_name %></td>
                                 <td scope="row"><%= data.quantity %></td>
-                                <td scope="row"><%= data.supplier %></td>
                                 <td scope="row">$<%= data.price %></td>
                             </tr>
                         <% }) %>
