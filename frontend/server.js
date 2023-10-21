@@ -53,6 +53,22 @@ app.get('/montrose', function(req, res) {
   }    
 });
 
+app.get('/galleria', function(req, res) {
+    res.render('pages/galleria')
+});
+/*
+app.get('/galleria', function(req, res) {
+    axios.get('http://127.0.0.1:5000/galloInventory')
+    .then((response)=>{
+        var data = response.data;
+        
+        res.render('pages/galleria', {
+            data: data
+    })
+    
+    })
+});
+*/
 /*
 app.get('/sugarland', function(req, res) {
     axios.get('http://127.0.0.1:5000/sugarland')

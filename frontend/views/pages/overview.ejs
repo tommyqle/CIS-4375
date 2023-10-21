@@ -7,47 +7,58 @@
 
 <body>
     <div class="row g-0 flex-nowrap">
-        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0" style="background-color: #243665;">
-            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+        <!-- Sidebar navigation begins -->
+        <div class="col-auto col-md-3 col-xl-2 px-sm-0 px-0" style="background-color: #243665;" role="navigation">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100 justify-content-center">
                 <a href="/overview" class="d-flex mx-auto">
                     <img src="../img/countify_sidebar.png" width="180" height="90" class="mx-auto" loading="lazy">
                 </a>
-                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                <!-- Navigation links begins -->
+                <ul class="nav nav-pills btn-toggle-nav flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu" style="display: block;">
+                    <!-- Inventory Overview -->
                     <li class="nav-item">
-                        <a href="/overview" class="nav-link align-middle px-0" style="color:#8bd8bd">
+                        <a href="/overview" class="nav-link align-middle px-2 mb-2 csslink csslinkactive">
                             <i class="fs-4 bi bi-clipboard-check"></i> <span class="ms-1 d-none d-sm-inline">Inventory Overview</span>
                         </a>
                     </li>
+                    <!-- Sugar Land inventory link -->
                     <li class="nav-item">
-                        <a href="/sugarland" class="nav-link align-middle px-0" style="color:#8bd8bd">
-                            <i class="fs-4 bi bi-1-circle"></i> <span class="ms-1 d-none d-sm-inline">Sugar Land Inventory</span>
+                        <a href="/sugarland" class="nav-link align-middle px-2 mb-2 csslink">
+                            <i class="fs-4 bi bi-shop"></i> <span class="ms-1 d-none d-sm-inline">Sugar Land Inventory</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="/montrose" class="nav-link px-0 align-middle" style="color:#8bd8bd">
-                            <i class="fs-4 bi bi-2-circle"></i> <span class="ms-1 d-none d-sm-inline">Montrose Inventory</span>
+                    <!-- Galleria inventory link -->
+                    <li class="nav-item">
+                        <a href="/galleria" class="nav-link align-middle px-2 mb-2 csslink">
+                            <i class="fs-4 bi bi-shop"></i> <span class="ms-1 d-none d-sm-inline">Galleria Inventory</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle" style="color:#8bd8bd">
+                    <!-- Edit inventory link -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link align-middle px-2 mb-2 csslink">
                             <i class="fs-4 bi bi-pencil"></i> <span class="ms-1 d-none d-sm-inline">Edit Inventory</span>
                         </a>
                     </li>
                 </ul>
-                <hr>
-                <a href="#" class="nav-link px-0 align-middle mb-4" style="color:white">
+                <!-- Navigation links ends -->
+                <hr style="height:2px; width: 100%; color: #8bd8bd; background-color:#8bd8bd; opacity: 1"> 
+                <!-- Log out button -->
+                <a href="/" class="nav-link align-middle px-0 mb-4 csslink">
                     <i class="fs-4 bi bi-box-arrow-right"></i> <span class="ms-1 d-none d-sm-inline">Log out</span>
                 </a>
             </div>
         </div>
-        <!-- CONTENT AREA BEGINS -->
+        <!-- Sidebar navigation ends -->
+
+        <!-- Content area begins -->
         <div class="col">
+            <!-- Page header -->
             <h1 class="p-4" style="background-color: #8bd8bd; color:#243665;">
                 Inventory Overview
             </h1>
             
-            <p class="m-4"> Here is the current inventory view: </p>
-        
+            
+            <!-- Inventory table view begins -->
             <% if (locals.data) { %>
                 <div class="container-fluid">
                 <table class="table">
@@ -74,8 +85,9 @@
                 </table>
                 </div>
             <% } %>
+            <!-- Inventory table view ends -->
         </div>
-        <!-- CONTENT AREA ENDS -->
+        <!-- Content area ends -->
     </div>
 </body>
 
