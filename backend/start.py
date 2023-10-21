@@ -22,10 +22,6 @@ conn = create_connection(myCreds.conString, myCreds.userName, myCreds.password, 
 # Login with Password
 @app.route('/api/login', methods=['POST'])
 def usernamepw():
-    # SQL query to put all users in a list
-    # sqlStatement = "SELECT * FROM users"
-    # authorizedusers = execute_read_query(conn, sqlStatement)
-
     # Get username/password from frontend
     authentication = request.get_json()
 
@@ -35,6 +31,7 @@ def usernamepw():
     # SHA256 Hash password
     hashedPassword = hashlib.sha256(password.encode()).hexdigest()
 
+    # SQL Statement and execute with connection
     sqlStatement = f"SELECT * FROM users WHERE username='{username}' AND password='{hashedPassword}'"
     auth = execute_read_query(conn, sqlStatement)
 
@@ -42,13 +39,6 @@ def usernamepw():
         return 'SUCCESS!'
     else:
         return 'INVALID LOGIN'
-
-    # Check against all users for match on both username/password
-    # for auth in authorizedusers:
-    #     # If username matches and decrypted password matches
-    #     if auth['username'] == username and auth['password'] == hashedPassword:
-    #         return 'SUCCESS!'
-    #     return 'INVALID LOGIN'
 
 # View table in database
 @app.route('/overview', methods=['GET'])
@@ -76,22 +66,20 @@ def view_galleria_inv():
 # Add to inventory table in database
 @app.route('/api/add_inventory', methods=['POST'])
 def addInven():
-    category = request.json.get("category")
     item = request.json.get("item")
-    price = request.json.get("price")
+    quantity = request.json.get("quantity")
 
-    sqlStatement = "INSERT INTO inventory (category, item, price) VALUES ('%s','%s','%s')" % (category, item, price)
+    sqlStatement = "INSERT INTO sugarInventory (item, quantity) VALUES ('%s','%s')" % (item, quantity)
     execute_query(conn, sqlStatement)
     return "Successfully added!"
 
 # Update to inventory table in database
 @app.route('/api/update_inventory', methods=['POST'])
 def updateInven():
-    category = request.json.get("category")
     item = request.json.get("item")
-    price = request.json.get("price")
+    quantity = request.json.get("quantity")
 # Not finished
-    sqlStatement = "UPDATE inventory SET category = '%s' WHERE id = CHANGEME" % (category)
+    sqlStatement = "UPDATE sugarInventory SET category = '%s' WHERE id = CHANGEME" % (category)
     execute_query(conn, sqlStatement)
     return "Updated!"
 
@@ -100,7 +88,7 @@ def updateInven():
 def delInven():
     category = request.json.get("category")
 
-    sqlStatement = "DELETE FROM inventory WHERE category = '%s'" % (category)
+    sqlStatement = "DELETE FROM sugarInventory WHERE category = '%s'" % (category)
     execute_query(conn, sqlStatement)
     return "Deleted!"
 

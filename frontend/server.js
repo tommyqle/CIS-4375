@@ -126,29 +126,11 @@ app.post('/process_login', function(req, res) {
         });
       }
     })
+    // Handle any error that occurred during the request
     .catch((error) => {
       console.error(error);
-      // Handle any error that occurred during the request
     });
   });
-
-// app.post('/process_login', function(req,res){
-//     var username = req.body.username;
-//     var password = req.body.password;
-
-//     if(username === 'user' && password === 'verysecurepassword')
-//     {   
-//         axios.get(`http://127.0.0.1:5000/api/inventory`)
-//     }
-//     else
-//     {
-//         res.render('pages/overview', {
-//             auth: false,
-//             attempt: true
-//         });    
-//     }
-// });
-
 
 app.listen(8080);
 console.log('Listening on port 8080');
