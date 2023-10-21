@@ -1,10 +1,17 @@
 var express = require('express');
+var session = require('express-session');
 var app = express();
 const bodyParser  = require('body-parser');
 const axios = require('axios');
 
 app.use(bodyParser.urlencoded());
 app.use(express.static('views'));
+
+app.use(session({
+  secret: 'testkey',
+  resave: true,
+  saveUninitialized: true
+}))
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
@@ -16,23 +23,34 @@ app.get('/', function(req, res) {
 });
 
 app.get('/overview', function(req, res) {
+  if (req.session.loggedIn) {
     axios.get('http://127.0.0.1:5000/overview')
     .then((response)=>{
         var data = response.data;
         
         res.render('pages/overview', {
             data: data
+        })
     })
-    
-    })
+  } else {
+    res.redirect('/');
+  }
 });
 
 app.get('/sugarland', function(req, res) {
+  if (req.session.loggedIn) {
     res.render('pages/sugarland')
+  } else {
+    res.redirect('/');
+  }    
 });
 
 app.get('/montrose', function(req, res) {
+  if (req.session.loggedIn) {
     res.render('pages/montrose')
+  } else {
+    res.redirect('/');
+  }    
 });
 
 /*
@@ -74,6 +92,7 @@ app.post('/process_login', function(req, res) {
       var result = response.data;
       
       if (result === 'SUCCESS!') {
+        req.session.loggedIn = true;
         // Redirect to the overview page if login is successful
         res.redirect('/overview');
       } else {
