@@ -39,7 +39,14 @@ app.get('/overview', function(req, res) {
 
 app.get('/sugarland', function(req, res) {
   if (req.session.loggedIn) {
-    res.render('pages/sugarland')
+    axios.get('http://127.0.0.1:5000/sugarland')
+    .then((response)=>{
+      var data = response.data;
+
+      res.render('pages/sugarland', {
+        data: data
+      })
+    })
   } else {
     res.redirect('/');
   }    

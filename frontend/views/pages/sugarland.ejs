@@ -58,19 +58,15 @@
                     <thread>
                         <tr style="--bs-table-bg: #8bd8bd; --bs-table-color: #243665;">
                             <th scope="col">Item</th>
-                            <th scope="col">Category</th>
                             <th scope="col">Quantity</th>
-                            <th scope="col">Supplier</th>
-                            <th scope="col">Price</th>
+                            <th scope="col">Inventory Price</th>
                         </tr>
                     </thread>
                     <tbody>
                         <% locals.data.forEach(function(data) { %>
                             <tr>
                                 <td scope="row"><%= data.item %></td>
-                                <td scope="row"><%= data.category %></td>
                                 <td scope="row"><%= data.quantity %></td>
-                                <td scope="row"><%= data.supplier %></td>
                                 <td scope="row">$<%= data.price %></td>
                             </tr>
                         <% }) %>
