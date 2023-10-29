@@ -60,69 +60,63 @@
             
             <!-- Inventory table view begins -->
             <div class="container">
-            <div class="row">
-            
-            <div class="table-responsive col-md-6">
-            <p>Sugar Land Table</p>
-            <% if (locals.sugar_data) { %>
+                <div class="row">
+                    <!-- Sugar Land Table -->
+                    <div class="table-responsive col-md-6">
+                        <h3 class="text-center">Sugar Land Table</h3>
+                        <% if (locals.sugar_data) { %>
+                            <table class="table table-sm table-striped table-hover border border shadow">
+                                <thead>
+                                    <tr style="--bs-table-bg: #8bd8bd; --bs-table-color: #243665;">
+                                        <th scope="col">Item</th>
+                                        <th scope="col">Category</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% locals.sugar_data.forEach(function(data) { %>
+                                        <tr>
+                                            <td scope="row"><%= data.item %></td>
+                                            <td scope="row"><%= data.category %></td>
+                                            <td scope="row"><%= data.quantity %></td>
+                                            <td scope="row">$<%= data.price %></td>
+                                        </tr>
+                                    <% }) %>
+                                </tbody>
+                            </table>
+                        <% } %>
+                    </div>
                 
-                <table class="table table-striped">
-                    <thead>
-                        <tr style="--bs-table-bg: #8bd8bd; --bs-table-color: #243665;">
-                            <th scope="col">Item</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% locals.sugar_data.forEach(function(data) { %>
-                            <tr>
-                                <td scope="row"><%= data.product_name %></td>
-                                <td scope="row"><%= data.category_name %></td>
-                                <td scope="row"><%= data.quantity %></td>
-                                <td scope="row">$<%= data.price %></td>
-                            </tr>
-                        <% }) %>
-                    </tbody>
-                </table>
-                
-            <% } %>
-            </div>
-            
-            
-            <!-- Table 2 begins -->
-            <div class="table-responsive col-md-6">
-            <p>Galleria Table</p>
-            <% if (locals.galleria_data) { %>
-                
-                <table class="table table-striped">
-                    <thead>
-                        <tr style="--bs-table-bg: #8bd8bd; --bs-table-color: #243665;">
-                            <th scope="col">Item</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Supplier</th>
-                            <th scope="col">Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% locals.galleria_data.forEach(function(data) { %>
-                            <tr>
-                                <td scope="row"><%= data.item %></td>
-                                <td scope="row"><%= data.category %></td>
-                                <td scope="row"><%= data.quantity %></td>
-                                <td scope="row"><%= data.supplier %></td>
-                                <td scope="row">$<%= data.price %></td>
-                            </tr>
-                        <% }) %>
-                    </tbody>
-                </table>
-                
-                
-            <% } %>
-            </div>
-            </div>
+                    <!-- Galleria -->
+                    <div class="table-responsive col-md-6">
+                        <h3 class="text-center">Galleria Table</h3>
+                        <% if (locals.galleria_data) { %>
+                            <table class="table table-sm table-striped table-hover border shadow">
+                                <thead>
+                                    <tr style="--bs-table-bg: #8bd8bd; --bs-table-color: #243665;">
+                                        <th scope="col">Item</th>
+                                        <th scope="col">Category</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Supplier</th>
+                                        <th scope="col">Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% locals.galleria_data.forEach(function(data) { %>
+                                        <tr>
+                                            <td scope="row"><%= data.item %></td>
+                                            <td scope="row"><%= data.category %></td>
+                                            <td scope="row"><%= data.quantity %></td>
+                                            <td scope="row"><%= data.supplier %></td>
+                                            <td scope="row">$<%= data.price %></td>
+                                        </tr>
+                                    <% }) %>
+                                </tbody>
+                            </table>
+                        <% } %>
+                    </div>
+                </div>
             <!-- Inventory table view ends -->
         </div>
         <!-- Content area ends -->

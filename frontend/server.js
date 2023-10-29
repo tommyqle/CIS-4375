@@ -23,6 +23,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/overview', function(req, res) {
+  if (req.session.loggedIn) {
     axios.get('http://127.0.0.1:5000/sugarland')
     .then((response)=>{
         var sugar_data = response.data;
@@ -31,20 +32,10 @@ app.get('/overview', function(req, res) {
           var galleria_data = response.data;
           res.render('pages/overview', {
             sugar_data: sugar_data,
-            galleria_data: galleria_data
+            galleria_data, galleria_data
+          });
         });
     });
-  });
-
-  if (req.session.loggedIn) {
-    axios.get('http://127.0.0.1:5000/overview')
-    .then((response)=>{
-        var data = response.data;
-        
-        res.render('pages/overview', {
-            data: data
-        })
-    })
   } else {
     res.redirect('/');
   }
