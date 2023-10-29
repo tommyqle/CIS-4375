@@ -16,15 +16,18 @@ app.get('/', function(req, res) {
 });
 
 app.get('/overview', function(req, res) {
-    axios.get('http://127.0.0.1:5000/overview')
+    axios.get('http://127.0.0.1:5000/sugarland')
     .then((response)=>{
-        var data = response.data;
-        
-        res.render('pages/overview', {
-            data: data
-    })
-    
-    })
+        var sugar_data = response.data;
+        axios.get('http://127.0.0.1:5000/galleria')
+        .then((response)=>{
+          var galleria_data = response.data;
+          res.render('pages/overview', {
+            sugar_data: sugar_data,
+            galleria_data: galleria_data
+        });
+    });
+  });
 });
 
 app.get('/sugarland', function(req, res) {
@@ -44,12 +47,9 @@ app.get('/sugarland_update', function(req, res) {
     res.render('pages/sugarland_update')
 });
 
+
 app.get('/galleria', function(req, res) {
-    res.render('pages/galleria')
-});
-/*
-app.get('/galleria', function(req, res) {
-    axios.get('http://127.0.0.1:5000/galloInventory')
+    axios.get('http://127.0.0.1:5000/galleria')
     .then((response)=>{
         var data = response.data;
         
@@ -59,7 +59,7 @@ app.get('/galleria', function(req, res) {
     
     })
 });
-*/
+
 /*
 app.get('/sugarland', function(req, res) {
     axios.get('http://127.0.0.1:5000/sugarland')
