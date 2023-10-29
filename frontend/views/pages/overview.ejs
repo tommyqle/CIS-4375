@@ -11,7 +11,7 @@
         <div class="col-auto col-md-3 col-xl-2 px-sm-0 px-0" style="background-color: #243665;" role="navigation">
             <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100 justify-content-center">
                 <a href="/overview" class="d-flex mx-auto">
-                    <img src="../img/countify_sidebar.png" width="180" height="90" class="mx-auto" loading="lazy">
+                    <img src="../img/countify_sidebar.png" width="180" height="90" class="mx-auto"/>
                 </a>
                 <!-- Navigation links begins -->
                 <ul class="nav nav-pills btn-toggle-nav flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu" style="display: block;">
@@ -43,7 +43,7 @@
                 <!-- Navigation links ends -->
                 <hr style="height:2px; width: 100%; color: #8bd8bd; background-color:#8bd8bd; opacity: 1"> 
                 <!-- Log out button -->
-                <a href="/" class="nav-link align-middle px-0 mb-4 csslink">
+                <a href="/" class="nav-link align-middle px-2 mb-4 csslink">
                     <i class="fs-4 bi bi-box-arrow-right"></i> <span class="ms-1 d-none d-sm-inline">Log out</span>
                 </a>
             </div>
@@ -59,19 +59,24 @@
             
             
             <!-- Inventory table view begins -->
-            <% if (locals.data) { %>
-                <div class="container-fluid">
-                <table class="table">
-                    <thread>
+            <div class="container">
+            <div class="row">
+            
+            <div class="table-responsive col-md-6">
+            <p>Sugar Land Table</p>
+            <% if (locals.sugar_data) { %>
+                
+                <table class="table table-striped">
+                    <thead>
                         <tr style="--bs-table-bg: #8bd8bd; --bs-table-color: #243665;">
                             <th scope="col">Item</th>
                             <th scope="col">Category</th>
                             <th scope="col">Quantity</th>
                             <th scope="col">Price</th>
                         </tr>
-                    </thread>
+                    </thead>
                     <tbody>
-                        <% locals.data.forEach(function(data) { %>
+                        <% locals.sugar_data.forEach(function(data) { %>
                             <tr>
                                 <td scope="row"><%= data.product_name %></td>
                                 <td scope="row"><%= data.category_name %></td>
@@ -81,18 +86,48 @@
                         <% }) %>
                     </tbody>
                 </table>
-                </div>
+                
             <% } %>
+            </div>
+            
+            
+            <!-- Table 2 begins -->
+            <div class="table-responsive col-md-6">
+            <p>Galleria Table</p>
+            <% if (locals.galleria_data) { %>
+                
+                <table class="table table-striped">
+                    <thead>
+                        <tr style="--bs-table-bg: #8bd8bd; --bs-table-color: #243665;">
+                            <th scope="col">Item</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Supplier</th>
+                            <th scope="col">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% locals.galleria_data.forEach(function(data) { %>
+                            <tr>
+                                <td scope="row"><%= data.item %></td>
+                                <td scope="row"><%= data.category %></td>
+                                <td scope="row"><%= data.quantity %></td>
+                                <td scope="row"><%= data.supplier %></td>
+                                <td scope="row">$<%= data.price %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+                
+                
+            <% } %>
+            </div>
+            </div>
             <!-- Inventory table view ends -->
         </div>
         <!-- Content area ends -->
     </div>
 </body>
-
-
-<footer>
-    <%- include('../partials/footer'); %>
-</footer>
 
 </html>
 
