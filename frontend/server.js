@@ -1,10 +1,17 @@
 var express = require('express');
+var session = require('express-session');
 var app = express();
 const bodyParser  = require('body-parser');
 const axios = require('axios');
 
 app.use(bodyParser.urlencoded());
 app.use(express.static('views'));
+
+app.use(session({
+  secret: 'testkey',
+  resave: true,
+  saveUninitialized: true
+}))
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
@@ -28,23 +35,42 @@ app.get('/overview', function(req, res) {
         });
     });
   });
-});
 
-app.get('/sugarland', function(req, res) {
-    axios.get('http://127.0.0.1:5000/sugarland')
+  if (req.session.loggedIn) {
+    axios.get('http://127.0.0.1:5000/overview')
     .then((response)=>{
         var data = response.data;
         
-        res.render('pages/sugarland', {
+        res.render('pages/overview', {
             data: data
+        })
     })
-    
-    })
+  } else {
+    res.redirect('/');
+  }
 });
 
-/* TESTING */
-app.get('/sugarland_update', function(req, res) {
-    res.render('pages/sugarland_update')
+app.get('/sugarland', function(req, res) {
+  if (req.session.loggedIn) {
+    axios.get('http://127.0.0.1:5000/sugarland')
+    .then((response)=>{
+      var data = response.data;
+
+      res.render('pages/sugarland', {
+        data: data
+      })
+    })
+  } else {
+    res.redirect('/');
+  }    
+});
+
+app.get('/montrose', function(req, res) {
+  if (req.session.loggedIn) {
+    res.render('pages/montrose')
+  } else {
+    res.redirect('/');
+  }    
 });
 
 
@@ -99,6 +125,7 @@ app.post('/process_login', function(req, res) {
       var result = response.data;
       
       if (result === 'SUCCESS!') {
+        req.session.loggedIn = true;
         // Redirect to the overview page if login is successful
         res.redirect('/overview');
       } else {
@@ -109,29 +136,11 @@ app.post('/process_login', function(req, res) {
         });
       }
     })
+    // Handle any error that occurred during the request
     .catch((error) => {
       console.error(error);
-      // Handle any error that occurred during the request
     });
   });
-
-// app.post('/process_login', function(req,res){
-//     var username = req.body.username;
-//     var password = req.body.password;
-
-//     if(username === 'user' && password === 'verysecurepassword')
-//     {   
-//         axios.get(`http://127.0.0.1:5000/api/inventory`)
-//     }
-//     else
-//     {
-//         res.render('pages/overview', {
-//             auth: false,
-//             attempt: true
-//         });    
-//     }
-// });
-
 
 app.listen(8080);
 console.log('Listening on port 8080');
