@@ -35,7 +35,7 @@
                     </li>
                     <!-- Edit inventory link -->
                     <li class="nav-item">
-                        <a href="#" class="nav-link align-middle px-2 mb-2 csslink">
+                        <a href="/edit_inv" class="nav-link align-middle px-2 mb-2 csslink">
                             <i class="fs-4 bi bi-pencil"></i> <span class="ms-1 d-none d-sm-inline">Edit Inventory</span>
                         </a>
                     </li>
@@ -63,7 +63,7 @@
             <% if (locals.data) { %>
                 <div class="container-fluid">
                 <table class="table">
-                    <thread>
+                    <thead>
                         <tr style="--bs-table-bg: #8bd8bd; --bs-table-color: #243665;">
                             <th scope="col">Item</th>
                             <th scope="col">Category</th>
@@ -71,7 +71,7 @@
                             <th scope="col">Supplier</th>
                             <th scope="col">Price</th>
                         </tr>
-                    </thread>
+                    </thead>
                     <tbody>
                         <% locals.data.forEach(function(data) { %>
                             <tr>

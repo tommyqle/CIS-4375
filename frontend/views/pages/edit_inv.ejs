@@ -57,19 +57,36 @@
             <h1 class="p-4" style="background-color: #8bd8bd; color:#243665;">
                 Edit Inventory
             </h1>
+            <!-- Add, delete, and update tabs -->
+            <ul class="nav nav-tabs m-4" id="editTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                   <button class="nav-link active" id="add-tab" data-bs-toggle="tab" data-bs-target="#add-tab-pane" type="button" role="tab" aria-controls="add-tab-pane" aria-selected="true">Add</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="delete-tab" data-bs-toggle="tab" data-bs-target="#delete-tab-pane" type="button" role="tab" aria-controls="delete-tab-pane" aria-selected="false">Delete</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="update-tab" data-bs-toggle="tab" data-bs-target="#update-tab-pane" type="button" role="tab" aria-controls="update-tab-pane" aria-selected="false">Update</button>
+                </li>            
+            </ul>
             
-            
+            <div class="tab-content" id="editTabcontent">
+                <div class="tab-pane fade show active" id="add-tab-pane" role="tabpanel" aria-labelledby="add-tab" tabindex="0">Add test</div>
+                <div class="tab-pane fade" id="delete-tab-pane" role="tabpanel" aria-labelledby="delete-tab" tabindex="0">Delete test</div>
+                <div class="tab-pane fade" id="update-tab-pane" role="tabpanel" aria-labelledby="update-tab" tabindex="0">Update test</div>
+            </div>
+
             <!-- Inventory table view begins -->
             <% if (locals.data) { %>
                 <div class="container-fluid">
                 <table class="table">
-                    <thread>
+                    <thead>
                         <tr style="--bs-table-bg: #8bd8bd; --bs-table-color: #243665;">
                             <th scope="col">Category</th>
                             <th scope="col">Item</th>
                             <th scope="col">Price</th>
                         </tr>
-                    </thread>
+                    </thead>
                     <tbody>
                         <% locals.data.forEach(function(data) { %>
                             <tr>
@@ -86,7 +103,7 @@
         </div>
         <!-- Content area ends -->
     </div>
-</body>
 
+</body>
 
 </html>
