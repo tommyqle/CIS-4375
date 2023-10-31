@@ -63,6 +63,14 @@ def view_galleria_inv():
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
+# Tommy - testing Edit Inventory view table
+@app.route('/edit_inv', methods=['GET'])
+def view_product_inv():
+    tableSelect = "product"
+    sqlStatement = "SELECT * FROM %s" % (tableSelect)
+    viewTable = execute_read_query(conn, sqlStatement)
+    return jsonify(viewTable)
+
 # Add to inventory table in database
 @app.route('/api/add_inventory', methods=['POST'])
 def addInven():

@@ -22,6 +22,7 @@ app.get('/', function(req, res) {
     res.render('pages/index')
 });
 
+// Overview page
 app.get('/overview', function(req, res) {
   if (req.session.loggedIn) {
     axios.get('http://127.0.0.1:5000/sugarland')
@@ -41,6 +42,7 @@ app.get('/overview', function(req, res) {
   }
 });
 
+// Sugar Land page
 app.get('/sugarland', function(req, res) {
   if (req.session.loggedIn) {
     axios.get('http://127.0.0.1:5000/sugarland')
@@ -56,15 +58,7 @@ app.get('/sugarland', function(req, res) {
   }    
 });
 
-app.get('/montrose', function(req, res) {
-  if (req.session.loggedIn) {
-    res.render('pages/montrose')
-  } else {
-    res.redirect('/');
-  }    
-});
-
-
+// Galleria page
 app.get('/galleria', function(req, res) {
     axios.get('http://127.0.0.1:5000/galleria')
     .then((response)=>{
@@ -72,36 +66,26 @@ app.get('/galleria', function(req, res) {
         
         res.render('pages/galleria', {
             data: data
-    })
-    
-    })
-});
-
-/*
-app.get('/sugarland', function(req, res) {
-    axios.get('http://127.0.0.1:5000/sugarland')
-    .then((response)=>{
-        var data = response.data;
-        
-        res.render('pages/sugarland', {
-            data: data
-    })
-    
+      })   
     })
 });
 
-app.get('/montrose', function(req, res) {
-    axios.get('http://127.0.0.1:5000/montrose')
+// Edit Inventory page
+app.get('/edit_inv', function(req, res) {
+  if (req.session.loggedIn) {
+    axios.get('http://127.0.0.1:5000/edit_inv')
     .then((response)=>{
-        var data = response.data;
-        
-        res.render('pages/montrose', {
-            data: data
+      var data = response.data;
+
+      res.render('pages/edit_inv', {
+        data: data
+      })
     })
-    
-    })
+  } else {
+    res.redirect('/');
+  }    
 });
-*/
+
 // Login process
 app.post('/process_login', function(req, res) {
     var username = req.body.username;
