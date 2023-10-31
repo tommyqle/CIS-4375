@@ -14,7 +14,7 @@
                     <img src="../img/countify_sidebar.png" width="180" height="90" class="mx-auto"/>
                 </a>
                 <!-- Navigation links begins -->
-                <ul class="nav nav-pills btn-toggle-nav flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu" style="display: block;">
+                <ul class="nav nav-pills btn-toggle-nav col-auto flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu" style="display: block; width: 100%;">
                     <!-- Inventory Overview -->
                     <li class="nav-item">
                         <a href="/overview" class="nav-link align-middle px-2 mb-2 csslink csslinkactive">
@@ -39,13 +39,15 @@
                             <i class="fs-4 bi bi-pencil"></i> <span class="ms-1 d-none d-sm-inline">Edit Inventory</span>
                         </a>
                     </li>
+                    <hr style="height:2px; width: 100%; color: #8bd8bd; background-color:#8bd8bd; opacity: 1"> 
+
+                    <!-- Log out button -->
+                    <a href="/" class="nav-link align-middle px-2 mb-2 csslink">
+                        <i class="fs-4 bi bi-box-arrow-right"></i> <span class="ms-1 d-none d-sm-inline">Log out</span>
+                    </a>
                 </ul>
                 <!-- Navigation links ends -->
-                <hr style="height:2px; width: 100%; color: #8bd8bd; background-color:#8bd8bd; opacity: 1"> 
-                <!-- Log out button -->
-                <a href="/" class="nav-link align-middle px-2 mb-4 csslink">
-                    <i class="fs-4 bi bi-box-arrow-right"></i> <span class="ms-1 d-none d-sm-inline">Log out</span>
-                </a>
+                
             </div>
         </div>
         <!-- Sidebar navigation ends -->
@@ -63,9 +65,9 @@
                 <div class="row">
                     <!-- Sugar Land Table -->
                     <div class="table-responsive col-md-6">
-                        <h3 class="text-center">Sugar Land Table</h3>
+                        <h3 class="text-center">Sugar Land Inventory</h3>
                         <% if (locals.sugar_data) { %>
-                            <table class="table table-sm table-striped table-hover border border shadow">
+                            <table class="table table-sm table-hover border border shadow">
                                 <thead>
                                     <tr style="--bs-table-bg: #8bd8bd; --bs-table-color: #243665;">
                                         <th scope="col">Item</th>
@@ -76,6 +78,7 @@
                                 </thead>
                                 <tbody>
                                     <% locals.sugar_data.forEach(function(data) { %>
+                                        <!-- Highlight red for low stock - number can be changed -->
                                         <% if (data.quantity < 3) { %>
                                         <tr class="table-danger">
                                             <td scope="row"><%= data.item %></td>
@@ -99,9 +102,9 @@
                 
                     <!-- Galleria -->
                     <div class="table-responsive col-md-6">
-                        <h3 class="text-center">Galleria Table</h3>
+                        <h3 class="text-center">Galleria Inventory</h3>
                         <% if (locals.galleria_data) { %>
-                            <table class="table table-sm table-striped table-hover border shadow">
+                            <table class="table table-sm table-hover border shadow">
                                 <thead>
                                     <tr style="--bs-table-bg: #8bd8bd; --bs-table-color: #243665;">
                                         <th scope="col">Item</th>
