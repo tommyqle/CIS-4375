@@ -11,10 +11,10 @@
         <div class="col-auto col-md-3 col-xl-2 px-sm-0 px-0" style="background-color: #243665;" role="navigation">
             <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100 justify-content-center">
                 <a href="/overview" class="d-flex mx-auto">
-                    <img src="../img/countify_sidebar.png" width="180" height="90" class="mx-auto" loading="lazy">
+                    <img src="../img/countify_sidebar.png" width="180" height="90" class="mx-auto"/>
                 </a>
                 <!-- Navigation links begins -->
-                <ul class="nav nav-pills btn-toggle-nav flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu" style="display: block;">
+                <ul class="nav nav-pills btn-toggle-nav col-auto flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu" style="display: block; width: 100%;">
                     <!-- Inventory Overview -->
                     <li class="nav-item">
                         <a href="/overview" class="nav-link align-middle px-2 mb-2 csslink">
@@ -39,15 +39,14 @@
                             <i class="fs-4 bi bi-pencil"></i> <span class="ms-1 d-none d-sm-inline">Edit Inventory</span>
                         </a>
                     </li>
+                    <hr style="height:2px; width: 100%; color: #8bd8bd; background-color:#8bd8bd; opacity: 1"> 
+
+                    <!-- Log out button -->
+                    <a href="/" class="nav-link align-middle px-2 mb-2 csslink">
+                        <i class="fs-4 bi bi-box-arrow-right"></i> <span class="ms-1 d-none d-sm-inline">Log out</span>
+                    </a>
                 </ul>
                 <!-- Navigation links ends -->
-                <hr style="height:2px; width: 100%; color: #8bd8bd; background-color:#8bd8bd; opacity: 1"> 
-                <!-- Log out button -->
-                <a href="/" class="nav-link align-middle px-2 mb-4 csslink">
-                <hr>
-                <a href="/" class="nav-link px-0 align-middle mb-4" style="color:white">
-                    <i class="fs-4 bi bi-box-arrow-right"></i> <span class="ms-1 d-none d-sm-inline">Log out</span>
-                </a>
             </div>
         </div>
         <!-- Sidebar navigation ends -->
@@ -56,7 +55,7 @@
         <div class="col">
             <!-- Page header -->
             <h1 class="p-4" style="background-color: #8bd8bd; color:#243665;">
-                Sugar Land Inventory Overview
+                Sugar Land Inventory
             </h1>
             
             
@@ -67,15 +66,19 @@
                     <thread>
                         <tr style="--bs-table-bg: #8bd8bd; --bs-table-color: #243665;">
                             <th scope="col">Item</th>
+                            <th scope="col">Category</th>
                             <th scope="col">Quantity</th>
-                            <th scope="col">Inventory Price</th>
+                            <th scope="col">Supplier</th>
+                            <th scope="col">Price</th>
                         </tr>
                     </thread>
                     <tbody>
                         <% locals.data.forEach(function(data) { %>
                             <tr>
                                 <td scope="row"><%= data.item %></td>
+                                <td scope="row"><%= data.category %></td>
                                 <td scope="row"><%= data.quantity %></td>
+                                <td scope="row"><%= data.supplier %></td>
                                 <td scope="row">$<%= data.price %></td>
                             </tr>
                         <% }) %>
