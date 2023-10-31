@@ -76,12 +76,21 @@
                                 </thead>
                                 <tbody>
                                     <% locals.sugar_data.forEach(function(data) { %>
-                                        <tr>
+                                        <% if (data.quantity < 3) { %>
+                                        <tr class="table-danger">
                                             <td scope="row"><%= data.item %></td>
                                             <td scope="row"><%= data.category %></td>
                                             <td scope="row"><%= data.quantity %></td>
                                             <td scope="row">$<%= data.price %></td>
                                         </tr>
+                                        <% } else { %>
+                                            <tr>
+                                                <td scope="row"><%= data.item %></td>
+                                                <td scope="row"><%= data.category %></td>
+                                                <td scope="row"><%= data.quantity %></td>
+                                                <td scope="row">$<%= data.price %></td>
+                                            </tr>
+                                            <% } %>
                                     <% }) %>
                                 </tbody>
                             </table>

@@ -32,7 +32,7 @@ app.get('/overview', function(req, res) {
           var galleria_data = response.data;
           res.render('pages/overview', {
             sugar_data: sugar_data,
-            galleria_data, galleria_data
+            galleria_data: galleria_data
           });
         });
     });
