@@ -1,6 +1,7 @@
 # Before first run do:
 # pip install mysql.connector
 # pip install npm
+# pip install flask-cors
 # npm install flask
 # Run by:
 # python start.py
@@ -42,6 +43,7 @@ def usernamepw():
     else:
         return 'INVALID LOGIN'
 
+# ========================= View Tables =========================
 # View table in database
 @app.route('/overview', methods=['GET'])
 def test_view():
@@ -69,7 +71,9 @@ def view_product_inv():
     sqlStatement = "SELECT * FROM product"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
+# ========================= View Tables =========================
 
+# ============================ CRUD =============================
 # Add to product table in database
 @app.route('/api/add_inventory', methods=['POST'])
 def addProdInven():
@@ -85,7 +89,6 @@ def addProdInven():
 @app.route('/api/del_inventory', methods=['DELETE'])
 def delProdInven():
     item = request.json.get("itemName")
-    print(item)
 
     sqlStatement = "SELECT product_id FROM product WHERE product_name = '%s'" % (item)
     productID = execute_read_query(conn, sqlStatement)
@@ -101,14 +104,23 @@ def delProdInven():
 # Update to inventory table in database
 @app.route('/api/update_inventory', methods=['POST'])
 def updateInven():
-    item = request.json.get("item")
-    quantity = request.json.get("quantity")
-# Not finished
-    sqlStatement = "UPDATE sugarInventory SET category = '%s' WHERE id = CHANGEME" % (category)
+    updateItem = request.json.get("updateItem")
+    category = request.json.get("category")
+    item = request.json.get("itemName")
+    price = request.json.get("price")
+
+    sqlStatement = "SELECT product_id FROM product WHERE product_name = '%s'" % (updateItem)
+    productID = execute_read_query(conn, sqlStatement)
+    productID = productID[0]['product_id']
+
+    sqlStatement = "UPDATE product SET category_name='%s',product_name='%s',price='%s' WHERE product_id='%s'" % (category,item,price,productID)
     execute_query(conn, sqlStatement)
-    return "Updated!"
+    return "Successfully updated!"
+# ============================ CRUD =============================
+
 
 app.run()
 
 # References
 # CIS3368 Code
+# https://www.w3resource.com/mysql/update-table/update-table.php

@@ -114,26 +114,32 @@ app.post('/edit_productinv', function(req, res) {
   });
 });
 
-// Delete Inventory Process
-// app.delete('/del_productinv', function(req, res) {
-//   var itemName = req.body.itemName;
+// Update Inventory Process
+app.post('/update_productinv', function(req, res) {
+  var currentItemName = req.body.currentItemName;
+  var category = req.body.category;
+  var itemName = req.body.itemName;
+  var price = req.body.price;
 
-//   // Make DELETE request to backend
-//   axios.delete('http://127.0.0.1:5000/api/del_inventory', {
-//     itemName: itemName,
-//   })
-//   .then((response) => {
-//     var result = response.data
-//     if (result === 'Successfully deleted!') {
-//       res.redirect('/edit_inv');
-//     } else {
-//       res.redirect('/overview');
-//     }
-//   })
-//   .catch((error) => {
-//     console.error(error);
-//   });
-// });
+  // Make POST request to backend
+  axios.post('http://127.0.0.1:5000/api/update_inventory', {
+    updateItem: currentItemName,
+    category: category,
+    itemName: itemName,
+    price: price
+  })
+  .then((response) => {
+    var result = response.data
+    if (result === 'Successfully updated!') {
+      res.redirect('/edit_inv');
+    } else {
+      res.redirect('/overview');
+    }
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+});
 
 // Login process
 app.post('/process_login', function(req, res) {
