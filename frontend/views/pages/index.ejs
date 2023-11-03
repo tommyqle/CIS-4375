@@ -19,23 +19,23 @@
           
           <h5 class="mt-4 text-center" style="color: #243665"> Log in </h5>
 
-          <form action="/process_login" method="post">
+          <form action="/process_login" method="post" class="form-group">
             
             <!-- Username input -->
             <div class="form-outline col-10 mx-auto m-4">
-              <input type="text" id="usernameform" name="username" class="form-control" placeholder="Username" required autocomplete="off" />
+              <input type="text" id="usernameform" name="username" class="form-control" placeholder="Username" required autocomplete="off" style="border-color:#243665"/>
               <label class="form-label" for="usernameform"></label>
             </div>
 
             <!-- Password input -->
             <div class="form-outline col-10 mx-auto m-4">
-              <input type="password" id="passwordform" name="password" class="form-control" placeholder="Password" required autocomplete="off" />
+              <input type="password" id="passwordform" name="password" class="form-control" placeholder="Password" required autocomplete="off" style="border-color:#243665; font-family: Verdana;"/>
               <label class="form-label" for="passwordform"></label>
             </div>
 
             <!-- Submit button -->
             <div class="d-grid col-10 mx-auto m-4">
-              <button type="submit" class="btn" style="background-color: #243665; color: white;">Log in</button>
+              <button type="submit" class="btn loginbutton">Log in</button>
             </div>
           </form>
         </div>
