@@ -1,4 +1,5 @@
 var express = require('express');
+var cors = require('cors');
 var session = require('express-session');
 var app = express();
 const bodyParser  = require('body-parser');
@@ -12,6 +13,8 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }))
+
+app.use(cors());
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
@@ -86,12 +89,64 @@ app.get('/edit_inv', function(req, res) {
   }    
 });
 
+// Add Inventory Process
+app.post('/edit_productinv', function(req, res) {
+  var category = req.body.category;
+  var itemName = req.body.itemName;
+  var price = req.body.price;
+
+  // Make POST request to backend
+  axios.post('http://127.0.0.1:5000/api/add_inventory', {
+    category: category,
+    itemName: itemName,
+    price: price
+  })
+  .then((response) => {
+    var result = response.data
+    if (result === 'Successfully added!') {
+      res.redirect('/edit_inv');
+    } else {
+      res.redirect('/overview');
+    }
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+});
+
+// Update Inventory Process
+app.post('/update_productinv', function(req, res) {
+  var currentItemName = req.body.currentItemName;
+  var category = req.body.category;
+  var itemName = req.body.itemName;
+  var price = req.body.price;
+
+  // Make POST request to backend
+  axios.post('http://127.0.0.1:5000/api/update_inventory', {
+    updateItem: currentItemName,
+    category: category,
+    itemName: itemName,
+    price: price
+  })
+  .then((response) => {
+    var result = response.data
+    if (result === 'Successfully updated!') {
+      res.redirect('/edit_inv');
+    } else {
+      res.redirect('/overview');
+    }
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+});
+
 // Login process
 app.post('/process_login', function(req, res) {
     var username = req.body.username;
     var password = req.body.password;
   
-    // Make a POST request to your Flask backend
+    // Make a POST request to backend
     axios.post('http://127.0.0.1:5000/api/login', {
       username: username,
       password: password
