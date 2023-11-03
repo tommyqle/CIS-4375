@@ -50,34 +50,32 @@ def test_view():
 # Tommy - testing sugarland inventory view table
 @app.route('/sugarland', methods=['GET'])
 def view_sugarland_inv():
-    tableSelect = "sugarInventory"
-    sqlStatement = "SELECT * FROM %s" % (tableSelect)
+    sqlStatement = "SELECT * FROM sugarInventory"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
 # Tommy - testing Galleria inventory view table
 @app.route('/galleria', methods=['GET'])
 def view_galleria_inv():
-    tableSelect = "galloInventory"
-    sqlStatement = "SELECT * FROM %s" % (tableSelect)
+    sqlStatement = "SELECT * FROM galloInventory"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
 # Tommy - testing Edit Inventory view table
 @app.route('/edit_inv', methods=['GET'])
 def view_product_inv():
-    tableSelect = "product"
-    sqlStatement = "SELECT * FROM %s" % (tableSelect)
+    sqlStatement = "SELECT * FROM product"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
 # Add to inventory table in database
 @app.route('/api/add_inventory', methods=['POST'])
 def addInven():
-    item = request.json.get("item")
-    quantity = request.json.get("quantity")
+    category = request.json.get("category")
+    item = request.json.get("itemName")
+    price = request.json.get("price")
 
-    sqlStatement = "INSERT INTO sugarInventory (item, quantity) VALUES ('%s','%s')" % (item, quantity)
+    sqlStatement = "INSERT INTO product (category_name, product_name, price) VALUES ('%s','%s','%s')" % (category, item, price)
     execute_query(conn, sqlStatement)
     return "Successfully added!"
 

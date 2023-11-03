@@ -86,12 +86,37 @@ app.get('/edit_inv', function(req, res) {
   }    
 });
 
+// Edit Inventory Process
+app.post('/edit_productinv', function(req, res) {
+  var category = req.body.category;
+  var itemName = req.body.itemName;
+  var price = req.body.price;
+
+  // Make POST request to backend
+  axios.post('http://127.0.0.1:5000/api/add_inventory', {
+    category: category,
+    itemName: itemName,
+    price: price
+  })
+  .then((response) => {
+    var result = response.data
+    if (result === 'Successfully added!') {
+      res.redirect('/edit_inv');
+    } else {
+      res.redirect('/overview');
+    }
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+});
+
 // Login process
 app.post('/process_login', function(req, res) {
     var username = req.body.username;
     var password = req.body.password;
   
-    // Make a POST request to your Flask backend
+    // Make a POST request to backend
     axios.post('http://127.0.0.1:5000/api/login', {
       username: username,
       password: password
