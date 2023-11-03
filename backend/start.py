@@ -10,10 +10,12 @@ import flask
 import hashlib
 import json
 from flask import request, make_response, jsonify
+from flask_cors import CORS
 from sql import create_connection, execute_query, execute_read_query
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
+CORS(app)
 
 # Create connection to MySQL database
 myCreds = creds.Creds()
@@ -68,9 +70,9 @@ def view_product_inv():
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
-# Add to inventory table in database
+# Add to product table in database
 @app.route('/api/add_inventory', methods=['POST'])
-def addInven():
+def addProdInven():
     category = request.json.get("category")
     item = request.json.get("itemName")
     price = request.json.get("price")
@@ -78,6 +80,23 @@ def addInven():
     sqlStatement = "INSERT INTO product (category_name, product_name, price) VALUES ('%s','%s','%s')" % (category, item, price)
     execute_query(conn, sqlStatement)
     return "Successfully added!"
+
+# Delete from product table in database
+@app.route('/api/del_inventory', methods=['DELETE'])
+def delProdInven():
+    item = request.json.get("itemName")
+    print(item)
+
+    sqlStatement = "SELECT product_id FROM product WHERE product_name = '%s'" % (item)
+    productID = execute_read_query(conn, sqlStatement)
+    productID = productID[0]['product_id']
+
+    if productID:
+        sqlStatement = "DELETE FROM product WHERE product_id = '%s'" % (productID)
+        execute_query(conn, sqlStatement)
+        return "Successfully deleted!"
+    else:
+        return "No productID found."
 
 # Update to inventory table in database
 @app.route('/api/update_inventory', methods=['POST'])
@@ -88,16 +107,6 @@ def updateInven():
     sqlStatement = "UPDATE sugarInventory SET category = '%s' WHERE id = CHANGEME" % (category)
     execute_query(conn, sqlStatement)
     return "Updated!"
-
-# Delete from inventory table
-@app.route('/api/del_inventory', methods=['DELETE'])
-def delInven():
-    category = request.json.get("category")
-
-    sqlStatement = "DELETE FROM sugarInventory WHERE category = '%s'" % (category)
-    execute_query(conn, sqlStatement)
-    return "Deleted!"
-
 
 app.run()
 

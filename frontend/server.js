@@ -1,4 +1,5 @@
 var express = require('express');
+var cors = require('cors');
 var session = require('express-session');
 var app = express();
 const bodyParser  = require('body-parser');
@@ -12,6 +13,8 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }))
+
+app.use(cors());
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
@@ -86,7 +89,7 @@ app.get('/edit_inv', function(req, res) {
   }    
 });
 
-// Edit Inventory Process
+// Add Inventory Process
 app.post('/edit_productinv', function(req, res) {
   var category = req.body.category;
   var itemName = req.body.itemName;
@@ -110,6 +113,27 @@ app.post('/edit_productinv', function(req, res) {
     console.error(error);
   });
 });
+
+// Delete Inventory Process
+// app.delete('/del_productinv', function(req, res) {
+//   var itemName = req.body.itemName;
+
+//   // Make DELETE request to backend
+//   axios.delete('http://127.0.0.1:5000/api/del_inventory', {
+//     itemName: itemName,
+//   })
+//   .then((response) => {
+//     var result = response.data
+//     if (result === 'Successfully deleted!') {
+//       res.redirect('/edit_inv');
+//     } else {
+//       res.redirect('/overview');
+//     }
+//   })
+//   .catch((error) => {
+//     console.error(error);
+//   });
+// });
 
 // Login process
 app.post('/process_login', function(req, res) {

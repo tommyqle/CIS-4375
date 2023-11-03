@@ -3,6 +3,7 @@
 
 <head>
     <%- include('../partials/head'); %>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
@@ -106,7 +107,15 @@
                     </form>
                 </div>
                 <!-- Delete pane -->
-                <div class="tab-pane fade" id="delete-tab-pane" role="tabpanel" aria-labelledby="delete-tab" tabindex="0">Delete test</div>
+                <div class="tab-pane fade" id="delete-tab-pane" role="tabpanel" aria-labelledby="delete-tab" tabindex="0">
+                    <div class="form-group m-4">
+                        <label class="form-label">Item Name:</label>
+                        <input type="text" class="form-control" id="itemName" name="itemName">
+                    </div>
+                    <button type="button" id="deleteButton" class="btn btn-primary m-4">
+                        Delete
+                    </button>
+                </div>
                 <!-- Update pane -->
                 <div class="tab-pane fade" id="update-tab-pane" role="tabpanel" aria-labelledby="update-tab" tabindex="0">Update test</div>
             </div>
@@ -141,7 +150,35 @@
         </div>
         <!-- Content area ends -->
     </div>
-      
+    
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var deleteButton = document.getElementById("deleteButton");
+        deleteButton.addEventListener("click", function(event) {
+            event.preventDefault();
+
+            var itemName = document.getElementById("itemName").value;
+
+            axios.delete('http://127.0.0.1:5000/api/del_inventory', {
+                data: {
+                    itemName: itemName,
+                }
+            })
+            .then((response) => {
+                var result = response.data
+                if (result === 'Successfully deleted!') {
+                    window.location.href = '/edit_inv';
+                } else {
+                    window.location.href = '/overview';
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+        })
+    })
+</script>
+
 </body>
 
 </html>
