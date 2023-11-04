@@ -60,7 +60,7 @@
             </h1>
 
             <!-- Add, delete, and update tabs -->
-            <div class="card m-4">
+            <div class="card m-4 shadow">
                 <div class="card-header">
                     <ul class="nav nav-tabs card-header-tabs" id="editTab" role="tablist">
                         <li class="nav-item" role="presentation">
@@ -81,7 +81,11 @@
                     <form action="/edit_productinv" method="post">
                         <div class="form-group m-4">
                             <label for="categorylist" class="form-label">Category:</label>
+
+                            <select class="form-select" aria-label="Test" id="categorylist" aria-placeholder="test">
+
                             <select class="form-select" aria-label="Test" id="categorylist" name="category">
+
                                 <option>Meats</option>
                                 <option>Breads</option>
                                 <option>Fried</option>
@@ -99,9 +103,13 @@
                         </div>
                         <div class="form-group m-4">
                             <label for="price">Price:</label>
+
+                            <input type="number" class="form-control" id="price" step="0.01">
+
                             <input type="number" class="form-control" id="price" name="price" step="0.01" placeholder="Enter price">
+
                         </div>
-                        <button type="submit" class="btn btn-primary m-4">
+                        <button type="submit" class="btn loginbutton m-4">
                             Add
                         </button>
                     </form>
