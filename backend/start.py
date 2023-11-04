@@ -51,21 +51,21 @@ def test_view():
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
-# Tommy - testing sugarland inventory view table
+# Sugar Land inventory view
 @app.route('/sugarland', methods=['GET'])
 def view_sugarland_inv():
     sqlStatement = "SELECT * FROM sugarInventory"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
-# Tommy - testing Galleria inventory view table
+# Galleria inventory view
 @app.route('/galleria', methods=['GET'])
 def view_galleria_inv():
     sqlStatement = "SELECT * FROM galloInventory"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
-# Tommy - testing Edit Inventory view table
+# Product view for editing inventory
 @app.route('/edit_inv', methods=['GET'])
 def view_product_inv():
     sqlStatement = "SELECT * FROM product"
