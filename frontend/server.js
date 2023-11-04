@@ -61,6 +61,44 @@ app.get('/sugarland', function(req, res) {
   }    
 });
 
+// Sugarland Update
+app.get('/sugarland_update', function(req, res) {
+  if (req.session.loggedIn) {
+    axios.get('http://127.0.0.1:5000/sugarland')
+    .then((response)=>{
+      var data = response.data;
+
+      res.render('pages/sugarland_update', {
+        data: data
+      })
+    })
+  } else {
+    res.redirect('/');
+  };
+});
+
+// Update Quantity Process
+app.post('/update_quantity', function(req, res) {
+
+  var quantity = req.body.quantity;
+
+  // Make POST request to backend
+  axios.post('http://127.0.0.1:5000/api/update_quantity', {
+    quantity: quantity
+  })
+  .then((response) => {
+    var result = response.data
+    if (result === 'Successfully updated!') {
+      res.redirect('/sugarland_update');
+    } else {
+      res.redirect('/overview');
+    }
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+});
+
 // Galleria page
 app.get('/galleria', function(req, res) {
     axios.get('http://127.0.0.1:5000/galleria')

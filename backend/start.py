@@ -116,6 +116,16 @@ def updateInven():
     sqlStatement = "UPDATE product SET category_name='%s',product_name='%s',price='%s' WHERE product_id='%s'" % (category,item,price,productID)
     execute_query(conn, sqlStatement)
     return "Successfully updated!"
+
+# Update to tables quantity
+@app.route('/api/update_quantity', methods=['POST'])
+def updateQuant():
+    origQuantity = request.json.get("origQuantity")
+    updateQuantity = request.json.get("updateQuantity")
+
+    sqlStatement = "SELECT product_id FROM sugarInventory WHERE ='%s'" % (origQuantity)
+    productID = execute_read_query(conn, sqlStatement)
+
 # ============================ CRUD =============================
 
 
