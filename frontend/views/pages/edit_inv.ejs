@@ -3,6 +3,7 @@
 
 <head>
     <%- include('../partials/head'); %>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
@@ -77,10 +78,14 @@
             <div class="tab-content card-body" id="editTabcontent">
                 <!-- Add pane -->
                 <div class="tab-pane fade show active" id="add-tab-pane" role="tabpanel" aria-labelledby="add-tab" tabindex="0">
-                    <form>
+                    <form action="/edit_productinv" method="post">
                         <div class="form-group m-4">
                             <label for="categorylist" class="form-label">Category:</label>
+
                             <select class="form-select" aria-label="Test" id="categorylist" aria-placeholder="test">
+
+                            <select class="form-select" aria-label="Test" id="categorylist" name="category">
+
                                 <option>Meats</option>
                                 <option>Breads</option>
                                 <option>Fried</option>
@@ -94,11 +99,15 @@
                         </div>
                         <div class="form-group m-4">
                             <label for="itemNameInput" class="form-label">Item Name:</label>
-                            <input type="text" class="form-control" id="itemNameInput">
+                            <input type="text" class="form-control" id="itemNameInput" name="itemName">
                         </div>
                         <div class="form-group m-4">
                             <label for="price">Price:</label>
+
                             <input type="number" class="form-control" id="price" step="0.01">
+
+                            <input type="number" class="form-control" id="price" name="price" step="0.01" placeholder="Enter price">
+
                         </div>
                         <button type="submit" class="btn loginbutton m-4">
                             Add
@@ -106,9 +115,49 @@
                     </form>
                 </div>
                 <!-- Delete pane -->
-                <div class="tab-pane fade" id="delete-tab-pane" role="tabpanel" aria-labelledby="delete-tab" tabindex="0">Delete test</div>
+                <div class="tab-pane fade" id="delete-tab-pane" role="tabpanel" aria-labelledby="delete-tab" tabindex="0">
+                    <div class="form-group m-4">
+                        <label class="form-label">Item Name:</label>
+                        <input type="text" class="form-control" id="itemName" name="itemName">
+                    </div>
+                    <button type="button" id="deleteButton" class="btn btn-primary m-4">
+                        Delete
+                    </button>
+                </div>
                 <!-- Update pane -->
-                <div class="tab-pane fade" id="update-tab-pane" role="tabpanel" aria-labelledby="update-tab" tabindex="0">Update test</div>
+                <div class="tab-pane fade" id="update-tab-pane" role="tabpanel" aria-labelledby="update-tab" tabindex="0">
+                    <form action="/update_productinv" method="post">
+                        <div class="form-group m-4">
+                            <label for="currentitemNameInput" class="form-label">Item Name to Update:</label>
+                            <input type="text" class="form-control" id="currentitemNameInput" name="currentItemName">
+                        </div> 
+                        <div class="form-group m-4">
+                            <label for="categorylist" class="form-label">Category:</label>
+                            <select class="form-select" aria-label="Test" id="categorylist" name="category">
+                                <option>Meats</option>
+                                <option>Breads</option>
+                                <option>Fried</option>
+                                <option>Sauce/Dairy</option>
+                                <option>Veggies/Cheese</option>
+                                <option>Plastic/Papers</option>
+                                <option>Seasonings</option>
+                                <option>Cleaning</option>
+                                <option>Drinks</option>
+                            </select>
+                        </div>
+                        <div class="form-group m-4">
+                            <label for="itemNameInput" class="form-label">Item Name:</label>
+                            <input type="text" class="form-control" id="itemNameInput" name="itemName">
+                        </div>
+                        <div class="form-group m-4">
+                            <label for="price">Price:</label>
+                            <input type="number" class="form-control" id="price" name="price" step="0.01" placeholder="Enter price">
+                        </div>
+                        <button type="submit" class="btn btn-primary m-4">
+                            Update
+                        </button>
+                    </form>
+                </div>
             </div>
             </div>
             
@@ -141,7 +190,35 @@
         </div>
         <!-- Content area ends -->
     </div>
-      
+    
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var deleteButton = document.getElementById("deleteButton");
+        deleteButton.addEventListener("click", function(event) {
+            event.preventDefault();
+
+            var itemName = document.getElementById("itemName").value;
+
+            axios.delete('http://127.0.0.1:5000/api/del_inventory', {
+                data: {
+                    itemName: itemName,
+                }
+            })
+            .then((response) => {
+                var result = response.data
+                if (result === 'Successfully deleted!') {
+                    window.location.href = '/edit_inv';
+                } else {
+                    window.location.href = '/overview';
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+        })
+    })
+</script>
+
 </body>
 
 </html>
