@@ -18,7 +18,7 @@
                     <!-- Inventory Overview -->
                     <li class="nav-item">
                         <a href="/overview" class="nav-link align-middle px-2 mb-2 csslink">
-                            <i class="fs-4 bi bi-clipboard-check"></i> <span class="ms-1 d-none d-sm-inline">Inventory Overview</span>
+                            <i class="fs-4 bi bi-clipboard-data"></i> <span class="ms-1 d-none d-sm-inline">Inventory Overview</span>
                         </a>
                     </li>
                     <!-- Sugar Land inventory link -->
@@ -57,7 +57,11 @@
             <h1 class="p-4" style="background-color: #8bd8bd; color:#243665;">
                 Sugar Land Inventory
             </h1>
-   
+            
+            <!-- Inventory Count Button-->
+            <a href="/sugarland_update" class="nav-link countlink px-2 m-4">
+                <i class="fs-4 bi bi-clipboard-check"></i> <span class="ms-1 d-none d-sm-inline">Inventory Count</span>
+            </a>
 
             <!-- Inventory table view begins -->
             <% if (locals.data) { %>
