@@ -54,7 +54,8 @@ def test_view():
 # Sugar Land inventory view
 @app.route('/sugarland', methods=['GET'])
 def view_sugarland_inv():
-    sqlStatement = "SELECT * FROM sugarInventory"
+    #sqlStatement = "SELECT * FROM sugarInventory"
+    sqlStatement = "SELECT CONCAT(UCASE(LEFT(item, 1)), LCASE(RIGHT(item, LENGTH(item) - 1)) ) AS item, CONCAT(UCASE(LEFT(category, 1)), LCASE(RIGHT(category, LENGTH(category) - 1)) ) AS category, quantity, price FROM sugarInventory;"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
