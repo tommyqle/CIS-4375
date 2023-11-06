@@ -6,7 +6,7 @@
 # Run by:
 # python start.py
 
-import creds
+import parameters
 import flask
 import hashlib
 import json
@@ -19,8 +19,9 @@ app.config["DEBUG"] = True
 CORS(app)
 
 # Create connection to MySQL database
-myCreds = creds.Creds()
+myCreds = parameters.Creds()
 conn = create_connection(myCreds.conString, myCreds.userName, myCreds.password, myCreds.dbName)
+myTables = parameters.Tables()
 
 # Login with Password
 @app.route('/api/login', methods=['POST'])
@@ -35,7 +36,7 @@ def usernamepw():
     hashedPassword = hashlib.sha256(password.encode()).hexdigest()
 
     # SQL Statement and execute with connection
-    sqlStatement = f"SELECT * FROM users WHERE username='{username}' AND password='{hashedPassword}'"
+    sqlStatement = f"SELECT * FROM {myTables.users} WHERE username='{username}' AND password='{hashedPassword}'"
     auth = execute_read_query(conn, sqlStatement)
 
     if auth:
@@ -47,7 +48,7 @@ def usernamepw():
 # View table in database
 @app.route('/overview', methods=['GET'])
 def test_view():
-    sqlStatement = "SELECT * FROM product"
+    sqlStatement = f"SELECT * FROM {myTables.product}"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
@@ -55,21 +56,21 @@ def test_view():
 @app.route('/sugarland', methods=['GET'])
 def view_sugarland_inv():
     #sqlStatement = "SELECT * FROM sugarInventory"
-    sqlStatement = "SELECT id, CONCAT(UCASE(LEFT(item, 1)), LCASE(RIGHT(item, LENGTH(item) - 1)) ) AS item, CONCAT(UCASE(LEFT(category, 1)), LCASE(RIGHT(category, LENGTH(category) - 1)) ) AS category, quantity, price FROM sugarInventory;"
+    sqlStatement = f"SELECT id, CONCAT(UCASE(LEFT(item, 1)), LCASE(RIGHT(item, LENGTH(item) - 1)) ) AS item, CONCAT(UCASE(LEFT(category, 1)), LCASE(RIGHT(category, LENGTH(category) - 1)) ) AS category, quantity, price FROM {myTables.sugarland};"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
 # Galleria inventory view
 @app.route('/galleria', methods=['GET'])
 def view_galleria_inv():
-    sqlStatement = "SELECT * FROM galloInventory"
+    sqlStatement = f"SELECT * FROM {myTables.galleria}"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
 # Product view for editing inventory
 @app.route('/edit_inv', methods=['GET'])
 def view_product_inv():
-    sqlStatement = "SELECT * FROM product"
+    sqlStatement = f"SELECT * FROM {myTables.product}"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 # ========================= View Pages =========================
@@ -82,7 +83,7 @@ def addProdInven():
     item = request.json.get("itemName")
     price = request.json.get("price")
 
-    sqlStatement = "INSERT INTO product (category_name, product_name, price) VALUES ('%s','%s','%s')" % (category, item, price)
+    sqlStatement = f"INSERT INTO {myTables.product} (category_name, product_name, price) VALUES ('%s','%s','%s')" % (category, item, price)
     execute_query(conn, sqlStatement)
     return "Successfully added!"
 
@@ -91,12 +92,12 @@ def addProdInven():
 def delProdInven():
     item = request.json.get("itemName")
 
-    sqlStatement = "SELECT product_id FROM product WHERE product_name = '%s'" % (item)
+    sqlStatement = f"SELECT product_id FROM {myTables.product} WHERE product_name = '%s'" % (item)
     productID = execute_read_query(conn, sqlStatement)
     productID = productID[0]['product_id']
 
     if productID:
-        sqlStatement = "DELETE FROM product WHERE product_id = '%s'" % (productID)
+        sqlStatement = f"DELETE FROM {myTables.product} WHERE product_id = '%s'" % (productID)
         execute_query(conn, sqlStatement)
         return "Successfully deleted!"
     else:
@@ -110,11 +111,11 @@ def updateInven():
     item = request.json.get("itemName")
     price = request.json.get("price")
 
-    sqlStatement = "SELECT product_id FROM product WHERE product_name = '%s'" % (updateItem)
+    sqlStatement = f"SELECT product_id FROM {myTables.product} WHERE product_name = '%s'" % (updateItem)
     productID = execute_read_query(conn, sqlStatement)
     productID = productID[0]['product_id']
 
-    sqlStatement = "UPDATE product SET category_name='%s',product_name='%s',price='%s' WHERE product_id='%s'" % (category,item,price,productID)
+    sqlStatement = f"UPDATE {myTables.product} SET category_name='%s',product_name='%s',price='%s' WHERE product_id='%s'" % (category,item,price,productID)
     execute_query(conn, sqlStatement)
     return "Successfully updated!"
 
