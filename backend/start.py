@@ -121,13 +121,17 @@ def updateInven():
 # Update to tables quantity
 @app.route('/api/update_quantity', methods=['POST'])
 def updateQuant():
+    origQuantities = request.json.get("origQuantities")
     quantities = request.json.get("quantity")
     ids = request.json.get("id")
     table = request.json.get("table")
 
-    for id, quantity in zip(ids, quantities):
-        sqlStatement = "UPDATE %s SET quantity='%s' WHERE id='%s'" % (table, quantity, id)
-        execute_query(conn, sqlStatement)
+    for id, quantity, origQuantity in zip(ids, quantities, origQuantities):
+        if origQuantity == quantity:
+            continue
+        else:
+            sqlStatement = "UPDATE %s SET quantity='%s' WHERE id='%s'" % (table, quantity, id)
+            execute_query(conn, sqlStatement)
     return "Successfully updated!"
 
 # ============================ CRUD =============================

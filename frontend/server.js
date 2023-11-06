@@ -83,12 +83,14 @@ app.post('/update_quantity', function(req, res) {
   var quantity = req.body.quantity;
   var id = req.body.id;
   var table = req.body.table;
+  var origQuantities = req.body.origQuantities;
 
   // Make POST request to backend
   axios.post('http://127.0.0.1:5000/api/update_quantity', {
     id: id,
     quantity: quantity,
-    table: table
+    table: table,
+    origQuantities: origQuantities
   })
   .then((response) => {
     var result = response.data
