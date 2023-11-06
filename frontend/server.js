@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('views'));
 
 app.use(session({
-  secret: 'testkey',
+  secret: 'cis4375team11',
   resave: true,
   saveUninitialized: true
 }))
