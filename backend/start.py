@@ -43,7 +43,7 @@ def usernamepw():
     else:
         return 'INVALID LOGIN'
 
-# ========================= View Tables =========================
+# ========================= View Pages =========================
 # View table in database
 @app.route('/overview', methods=['GET'])
 def test_view():
@@ -55,7 +55,7 @@ def test_view():
 @app.route('/sugarland', methods=['GET'])
 def view_sugarland_inv():
     #sqlStatement = "SELECT * FROM sugarInventory"
-    sqlStatement = "SELECT CONCAT(UCASE(LEFT(item, 1)), LCASE(RIGHT(item, LENGTH(item) - 1)) ) AS item, CONCAT(UCASE(LEFT(category, 1)), LCASE(RIGHT(category, LENGTH(category) - 1)) ) AS category, quantity, price FROM sugarInventory;"
+    sqlStatement = "SELECT id, CONCAT(UCASE(LEFT(item, 1)), LCASE(RIGHT(item, LENGTH(item) - 1)) ) AS item, CONCAT(UCASE(LEFT(category, 1)), LCASE(RIGHT(category, LENGTH(category) - 1)) ) AS category, quantity, price FROM sugarInventory;"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
@@ -72,7 +72,7 @@ def view_product_inv():
     sqlStatement = "SELECT * FROM product"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
-# ========================= View Tables =========================
+# ========================= View Pages =========================
 
 # ============================ CRUD =============================
 # Add to product table in database
@@ -117,6 +117,23 @@ def updateInven():
     sqlStatement = "UPDATE product SET category_name='%s',product_name='%s',price='%s' WHERE product_id='%s'" % (category,item,price,productID)
     execute_query(conn, sqlStatement)
     return "Successfully updated!"
+
+# Update to tables quantity
+@app.route('/api/update_quantity', methods=['POST'])
+def updateQuant():
+    origQuantities = request.json.get("origQuantities")
+    quantities = request.json.get("quantity")
+    ids = request.json.get("id")
+    table = request.json.get("table")
+
+    for id, quantity, origQuantity in zip(ids, quantities, origQuantities):
+        if origQuantity == quantity:
+            continue
+        else:
+            sqlStatement = "UPDATE %s SET quantity='%s' WHERE id='%s'" % (table, quantity, id)
+            execute_query(conn, sqlStatement)
+    return "Successfully updated!"
+
 # ============================ CRUD =============================
 
 
