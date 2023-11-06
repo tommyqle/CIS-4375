@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body>
+    <div class="row g-0 flex-nowrap">
+        <%- include('../partials/sidebar'); %>
+
+        <!-- Content area begins -->
+        <div class="content col">
+            <!-- Page header -->
+            <h1 class="p-4" style="background-color: #8bd8bd; color:#243665;">
+                <% if (location === 'sugarland') { %>
+                    Sugar Land Inventory Count
+                <% } else if (location === 'galleria') { %>
+                    Galleria Inventory Count
+                <% } %>
+            </h1>
+
+            <!-- Inventory table view begins -->
+            <% if (locals.data) { %>
+                <div class="container-fluid">
+                    <!-- Inventory Update Button-->
+                    <form action="/update_quantity" method="post">
+                        <button type="submit" class="btn buttoncss m-4">Update</button>
+                        <input type="hidden" value="<%= table %>" name="table">
+                        <table class="table">
+                            <thead>
+                                <tr style="--bs-table-bg: #8bd8bd; --bs-table-color: #243665;">
+                                    <th scope="col">Item</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% locals.data.forEach(function(data) { %>
+                                    <tr>
+                                        <td scope="row"><%= data.item %></td>
+                                        <td scope="row"><%= data.category %></td>
+                                        <td scope="row">
+                                            <input type="number" value="<%= data.quantity %>" name="quantity" placeholder="<%= data.quantity %>" class="form-control" style="width: 80px;">
+                                            <input type="hidden" value="<%= data.id %>" name="id">
+                                            <input type="hidden" value="<%= data.quantity %>" name="origQuantities">
+                                        </td>
+                                        <td scope="row">$<%= data.price %></td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            <% } %>
+            <!-- Inventory table view ends -->
+        </div>
+        <!-- Content area ends -->
+    </div>
+</body>
+
+</html>
+
+
+<!-- References Used
+    https://dev.to/codeply/bootstrap-5-sidebar-examples-38pb
+    https://icons.getbootstrap.com/
+    https://getbootstrap.com/docs/5.3/content/tables/
+-->

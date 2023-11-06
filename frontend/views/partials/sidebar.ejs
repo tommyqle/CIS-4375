@@ -1,0 +1,55 @@
+<div class="sidebar col-md-3 col-xl-2 px-sm-0 px-0" role="navigation">
+    <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100 justify-content-center">
+        <a href="/overview" class="d-flex mx-auto">
+            <img src="../img/countify_sidebar.png" width="180" height="90" class="mx-auto"/>
+        </a>
+        <!-- Navigation links begins -->
+        <ul class="nav nav-pills btn-toggle-nav col-auto flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu" style="display: block; width: 100%;">
+            <!-- Inventory Overview -->
+            <li class="nav-item">
+                <a href="/overview" class="nav-link align-middle px-2 mb-2 csslink">
+                    <i class="fs-4 bi bi-clipboard-data"></i> <span class="ms-1 d-none d-sm-inline">Inventory Overview</span>
+                </a>
+            </li>
+            <!-- Sugar Land inventory link -->
+            <li class="nav-item">
+                <a href="/sugarland" class="nav-link align-middle px-2 mb-2 csslink">
+                    <i class="fs-4 bi bi-shop"></i> <span class="ms-1 d-none d-sm-inline">Sugar Land Inventory</span>
+                </a>
+            </li>
+            <!-- Galleria inventory link -->
+            <li class="nav-item">
+                <a href="/galleria" class="nav-link align-middle px-2 mb-2 csslink">
+                    <i class="fs-4 bi bi-shop"></i> <span class="ms-1 d-none d-sm-inline">Galleria Inventory</span>
+                </a>
+            </li>
+            <!-- Edit inventory link -->
+            <li class="nav-item">
+                <a href="/edit_inv" class="nav-link align-middle px-2 mb-2 csslink">
+                    <i class="fs-4 bi bi-pencil"></i> <span class="ms-1 d-none d-sm-inline">Edit Inventory</span>
+                </a>
+            </li>
+        </ul>
+        <!-- Navigation links ends -->
+        <hr style="height:2px; width: 100%; color: #8bd8bd; background-color:#8bd8bd; opacity: 1"> 
+        <!-- Log out button -->
+        <a href="/logout" class="nav-link align-middle px-2 mb-4 csslink">
+            <i class="fs-4 bi bi-box-arrow-right"></i> <span class="ms-1 d-none d-sm-inline">Log out</span>
+        </a>
+    </div>
+</div>
+
+<script>
+    // Get the current URL path
+    var path = window.location.pathname;
+
+    // Get all navigation links
+    var navLinks = document.querySelectorAll('.csslink');
+
+    // Loop through the links and add the csslinkactive class to the active link
+    for (var i = 0; i < navLinks.length; i++) {
+        if (navLinks[i].getAttribute('href') === path) {
+            navLinks[i].classList.add('csslinkactive');
+        }
+    }
+</script>
