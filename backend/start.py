@@ -55,7 +55,7 @@ def test_view():
 @app.route('/sugarland', methods=['GET'])
 def view_sugarland_inv():
     #sqlStatement = "SELECT * FROM sugarInventory"
-    sqlStatement = "SELECT CONCAT(UCASE(LEFT(item, 1)), LCASE(RIGHT(item, LENGTH(item) - 1)) ) AS item, CONCAT(UCASE(LEFT(category, 1)), LCASE(RIGHT(category, LENGTH(category) - 1)) ) AS category, quantity, price FROM sugarInventory;"
+    sqlStatement = "SELECT id, CONCAT(UCASE(LEFT(item, 1)), LCASE(RIGHT(item, LENGTH(item) - 1)) ) AS item, CONCAT(UCASE(LEFT(category, 1)), LCASE(RIGHT(category, LENGTH(category) - 1)) ) AS category, quantity, price FROM sugarInventory;"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
@@ -121,11 +121,14 @@ def updateInven():
 # Update to tables quantity
 @app.route('/api/update_quantity', methods=['POST'])
 def updateQuant():
-    origQuantity = request.json.get("origQuantity")
-    updateQuantity = request.json.get("updateQuantity")
+    quantities = request.json.get("quantity")
+    ids = request.json.get("id")
+    table = request.json.get("table")
 
-    sqlStatement = "SELECT product_id FROM sugarInventory WHERE ='%s'" % (origQuantity)
-    productID = execute_read_query(conn, sqlStatement)
+    for id, quantity in zip(ids, quantities):
+        sqlStatement = "UPDATE %s SET quantity='%s' WHERE id='%s'" % (table, quantity, id)
+        execute_query(conn, sqlStatement)
+    return "Successfully updated!"
 
 # ============================ CRUD =============================
 

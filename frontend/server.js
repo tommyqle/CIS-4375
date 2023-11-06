@@ -5,7 +5,7 @@ var app = express();
 const bodyParser  = require('body-parser');
 const axios = require('axios');
 
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('views'));
 
 app.use(session({
@@ -81,10 +81,14 @@ app.get('/sugarland_update', function(req, res) {
 app.post('/update_quantity', function(req, res) {
 
   var quantity = req.body.quantity;
+  var id = req.body.id;
+  var table = req.body.table;
 
   // Make POST request to backend
   axios.post('http://127.0.0.1:5000/api/update_quantity', {
-    quantity: quantity
+    id: id,
+    quantity: quantity,
+    table: table
   })
   .then((response) => {
     var result = response.data
