@@ -18,7 +18,7 @@
                     <!-- Inventory Overview -->
                     <li class="nav-item">
                         <a href="/overview" class="nav-link align-middle px-2 mb-2 csslink">
-                            <i class="fs-4 bi bi-clipboard-check"></i> <span class="ms-1 d-none d-sm-inline">Inventory Overview</span>
+                            <i class="fs-4 bi bi-clipboard-data"></i> <span class="ms-1 d-none d-sm-inline">Inventory Overview</span>
                         </a>
                     </li>
                     <!-- Sugar Land inventory link -->
@@ -58,7 +58,11 @@
                 Sugar Land Inventory
             </h1>
             
-            
+            <!-- Inventory Count Button-->
+            <a href="/sugarland_update" class="nav-link countlink px-2 m-4">
+                <i class="fs-4 bi bi-clipboard-check"></i> <span class="ms-1 d-none d-sm-inline">Inventory Count</span>
+            </a>
+
             <!-- Inventory table view begins -->
             <% if (locals.data) { %>
                 <div class="container-fluid">
@@ -68,7 +72,6 @@
                             <th scope="col">Item</th>
                             <th scope="col">Category</th>
                             <th scope="col">Quantity</th>
-                            <th scope="col">Supplier</th>
                             <th scope="col">Price</th>
                         </tr>
                     </thead>
@@ -78,7 +81,6 @@
                                 <td scope="row"><%= data.item %></td>
                                 <td scope="row"><%= data.category %></td>
                                 <td scope="row"><%= data.quantity %></td>
-                                <td scope="row"><%= data.supplier %></td>
                                 <td scope="row">$<%= data.price %></td>
                             </tr>
                         <% }) %>

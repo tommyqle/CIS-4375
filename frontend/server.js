@@ -127,6 +127,22 @@ app.get('/edit_inv', function(req, res) {
   }    
 });
 
+// Sugar Land inventory count page
+app.get('/sugarland_update', function(req, res) {
+  if (req.session.loggedIn) {
+    axios.get('http://127.0.0.1:5000/sugarland')
+    .then((response)=>{
+      var data = response.data;
+
+      res.render('pages/sugarland_update', {
+        data: data
+      })
+    })
+  } else {
+    res.redirect('/');
+  }    
+});
+
 // Add Inventory Process
 app.post('/edit_productinv', function(req, res) {
   var category = req.body.category;
