@@ -43,7 +43,7 @@ def usernamepw():
     else:
         return 'INVALID LOGIN'
 
-# ========================= View Tables =========================
+# ========================= View Pages =========================
 # View table in database
 @app.route('/overview', methods=['GET'])
 def test_view():
@@ -72,7 +72,7 @@ def view_product_inv():
     sqlStatement = "SELECT * FROM product"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
-# ========================= View Tables =========================
+# ========================= View Pages =========================
 
 # ============================ CRUD =============================
 # Add to product table in database

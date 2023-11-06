@@ -19,71 +19,60 @@ app.use(cors());
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
+function requireLogin(req, res, next) {
+  if (req.session.loggedIn) {
+    next();
+  } else {
+    res.redirect('/');
+  }
+}
+
 // index page 
-// This page renders the login page. A variable 'attempt' is created and set to 'false'. This is used in the program later to see if the user has attempted to enter in data.
 app.get('/', function(req, res) {
     res.render('pages/index')
 });
 
 // Overview page
-app.get('/overview', function(req, res) {
-  if (req.session.loggedIn) {
-    axios.get('http://127.0.0.1:5000/sugarland')
-    .then((response)=>{
-        var sugar_data = response.data;
-        axios.get('http://127.0.0.1:5000/galleria')
-        .then((response)=>{
-          var galleria_data = response.data;
-          res.render('pages/overview', {
-            sugar_data: sugar_data,
-            galleria_data: galleria_data
-          });
+app.get('/overview', requireLogin, function(req, res) {
+  axios.get('http://127.0.0.1:5000/sugarland')
+  .then((response)=>{
+      var sugar_data = response.data;
+      axios.get('http://127.0.0.1:5000/galleria')
+      .then((response)=>{
+        var galleria_data = response.data;
+        res.render('pages/overview', {
+          sugar_data: sugar_data,
+          galleria_data: galleria_data
         });
+      });
     });
-  } else {
-    res.redirect('/');
-  }
 });
 
 // Sugar Land page
-app.get('/sugarland', function(req, res) {
-  if (req.session.loggedIn) {
-    axios.get('http://127.0.0.1:5000/sugarland')
-    .then((response)=>{
-      var data = response.data;
+app.get('/sugarland', requireLogin, function(req, res) {
+  axios.get('http://127.0.0.1:5000/sugarland')
+  .then((response)=>{
+    var data = response.data;
 
-      res.render('pages/sugarland', {
-        data: data
-      })
+    res.render('pages/sugarland', {
+      data: data
     })
-  } else {
-    res.redirect('/');
-  }    
-});
-
-// Sugarland Update
-app.get('/sugarland_update', function(req, res) {
-  if (req.session.loggedIn) {
-    axios.get('http://127.0.0.1:5000/sugarland')
-    .then((response)=>{
-      var data = response.data;
-
-      res.render('pages/sugarland_update', {
-        data: data
-      })
-    })
-  } else {
-    res.redirect('/');
-  };
+  })    
 });
 
 // Update Quantity Process
-app.post('/update_quantity', function(req, res) {
-
+app.post('/update_quantity', requireLogin, function(req, res) {
   var quantity = req.body.quantity;
   var id = req.body.id;
   var table = req.body.table;
   var origQuantities = req.body.origQuantities;
+  var location;
+
+  if (table === 'sugarInventory') {
+    location = 'sugarland';
+  } else {
+    location = 'galleria';
+  }
 
   // Make POST request to backend
   axios.post('http://127.0.0.1:5000/api/update_quantity', {
@@ -95,7 +84,7 @@ app.post('/update_quantity', function(req, res) {
   .then((response) => {
     var result = response.data
     if (result === 'Successfully updated!') {
-      res.redirect('/sugarland_update');
+      res.redirect(`/${location}`);
     } else {
       res.redirect('/overview');
     }
@@ -106,51 +95,63 @@ app.post('/update_quantity', function(req, res) {
 });
 
 // Galleria page
-app.get('/galleria', function(req, res) {
-    axios.get('http://127.0.0.1:5000/galleria')
-    .then((response)=>{
-        var data = response.data;
-        
-        res.render('pages/galleria', {
-            data: data
-      })   
-    })
+app.get('/galleria', requireLogin, function(req, res) {
+  axios.get('http://127.0.0.1:5000/galleria')
+  .then((response)=>{
+      var data = response.data;
+      
+      res.render('pages/galleria', {
+          data: data
+    })   
+  })
 });
 
 // Edit Inventory page
-app.get('/edit_inv', function(req, res) {
-  if (req.session.loggedIn) {
-    axios.get('http://127.0.0.1:5000/edit_inv')
-    .then((response)=>{
-      var data = response.data;
+app.get('/edit_inv', requireLogin, function(req, res) {
+  axios.get('http://127.0.0.1:5000/edit_inv')
+  .then((response)=>{
+    var data = response.data;
 
-      res.render('pages/edit_inv', {
-        data: data
-      })
+    res.render('pages/edit_inv', {
+      data: data
     })
-  } else {
-    res.redirect('/');
-  }    
+  })
 });
 
-// Sugar Land inventory count page
-app.get('/sugarland_update', function(req, res) {
-  if (req.session.loggedIn) {
-    axios.get('http://127.0.0.1:5000/sugarland')
-    .then((response)=>{
-      var data = response.data;
+// Update inventory count page both locations
+app.get('/update_inv/:location', requireLogin, function(req, res) {
+  var location = req.params.location;
+  var apiUrl;
+  var table;
 
-      res.render('pages/sugarland_update', {
-        data: data
-      })
-    })
+  if (location === 'sugarland') {
+    apiUrl = 'http://127.0.0.1:5000/sugarland';
+    table = 'sugarInventory';
+  } else if (location === 'galleria') {
+    apiUrl = 'http://127.0.0.1:5000/galleria';
+    table = 'galloInventory';
   } else {
-    res.redirect('/');
-  }    
+    res.redirect('/overview');
+    return;
+  }
+
+  axios.get(apiUrl)
+      .then((response) => {
+          var data = response.data;
+
+          res.render('pages/update_inv', {
+              location: location,
+              table: table,
+              data: data
+          });
+      })
+      .catch((error) => {
+          console.error(error);
+      });
 });
 
 // Add Inventory Process
-app.post('/edit_productinv', function(req, res) {
+app.post('/edit_productinv', requireLogin, function(req, res) {
   var category = req.body.category;
   var itemName = req.body.itemName;
   var price = req.body.price;
@@ -175,7 +176,7 @@ app.post('/edit_productinv', function(req, res) {
 });
 
 // Update Inventory Process
-app.post('/update_productinv', function(req, res) {
+app.post('/update_productinv', requireLogin, function(req, res) {
   var currentItemName = req.body.currentItemName;
   var category = req.body.category;
   var itemName = req.body.itemName;
@@ -220,9 +221,7 @@ app.post('/process_login', function(req, res) {
         res.redirect('/overview');
       } else {
         // Render the login page with an authentication failure message
-        res.render('pages/index', {
-          auth: false,
-          attempt: true
+        res.render('/', {
         });
       }
     })
@@ -231,6 +230,13 @@ app.post('/process_login', function(req, res) {
       console.error(error);
     });
   });
+
+// Logout process
+app.get('/logout', requireLogin, function(req, res) {
+  req.session.destroy(function(err) {
+    res.redirect('/');
+  });
+});
 
 app.listen(8080);
 console.log('Listening on port 8080');
