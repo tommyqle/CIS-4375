@@ -7,7 +7,7 @@
         <ul class="nav nav-pills btn-toggle-nav col-auto flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu" style="display: block; width: 100%;">
             <!-- Inventory Overview -->
             <li class="nav-item">
-                <a href="/overview" class="nav-link align-middle px-2 mb-2 csslink csslinkactive">
+                <a href="/overview" class="nav-link align-middle px-2 mb-2 csslink">
                     <i class="fs-4 bi bi-clipboard-data"></i> <span class="ms-1 d-none d-sm-inline">Inventory Overview</span>
                 </a>
             </li>
@@ -38,3 +38,18 @@
         </a>
     </div>
 </div>
+
+<script>
+    // Get the current URL path
+    var path = window.location.pathname;
+
+    // Get all navigation links
+    var navLinks = document.querySelectorAll('.csslink');
+
+    // Loop through the links and add the csslinkactive class to the active link
+    for (var i = 0; i < navLinks.length; i++) {
+        if (navLinks[i].getAttribute('href') === path) {
+            navLinks[i].classList.add('csslinkactive');
+        }
+    }
+</script>

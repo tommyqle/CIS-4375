@@ -6,11 +6,10 @@
 # Run by:
 # python start.py
 
-import creds
+import parameters
 import flask
 import hashlib
-import json
-from flask import request, make_response, jsonify
+from flask import request, jsonify
 from flask_cors import CORS
 from sql import create_connection, execute_query, execute_read_query
 
@@ -19,8 +18,9 @@ app.config["DEBUG"] = True
 CORS(app)
 
 # Create connection to MySQL database
-myCreds = creds.Creds()
+myCreds = parameters.Creds()
 conn = create_connection(myCreds.conString, myCreds.userName, myCreds.password, myCreds.dbName)
+myTables = parameters.Tables()
 
 # Login with Password
 @app.route('/api/login', methods=['POST'])
@@ -35,7 +35,7 @@ def usernamepw():
     hashedPassword = hashlib.sha256(password.encode()).hexdigest()
 
     # SQL Statement and execute with connection
-    sqlStatement = f"SELECT * FROM users WHERE username='{username}' AND password='{hashedPassword}'"
+    sqlStatement = f"SELECT * FROM {myTables.users} WHERE username='{username}' AND password='{hashedPassword}'"
     auth = execute_read_query(conn, sqlStatement)
 
     if auth:
@@ -44,32 +44,25 @@ def usernamepw():
         return 'INVALID LOGIN'
 
 # ========================= View Pages =========================
-# View table in database
-@app.route('/overview', methods=['GET'])
-def test_view():
-    sqlStatement = "SELECT * FROM product"
-    viewTable = execute_read_query(conn, sqlStatement)
-    return jsonify(viewTable)
-
 # Sugar Land inventory view
 @app.route('/sugarland', methods=['GET'])
 def view_sugarland_inv():
-    #sqlStatement = "SELECT * FROM sugarInventory"
-    sqlStatement = "SELECT id, CONCAT(UCASE(LEFT(item, 1)), LCASE(RIGHT(item, LENGTH(item) - 1)) ) AS item, CONCAT(UCASE(LEFT(category, 1)), LCASE(RIGHT(category, LENGTH(category) - 1)) ) AS category, quantity, price FROM sugarInventory;"
+    # Select * from sugarInventory table but capitalize each entry
+    sqlStatement = f"SELECT id, CONCAT(UCASE(LEFT(item, 1)), LCASE(RIGHT(item, LENGTH(item) - 1)) ) AS item, CONCAT(UCASE(LEFT(category, 1)), LCASE(RIGHT(category, LENGTH(category) - 1)) ) AS category, quantity, price FROM {myTables.sugarland};"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
-# Galleria inventory view
+# Galleria inventory view - copy of /sugarland
 @app.route('/galleria', methods=['GET'])
 def view_galleria_inv():
-    sqlStatement = "SELECT * FROM galloInventory"
+    sqlStatement = f"SELECT id, CONCAT(UCASE(LEFT(item, 1)), LCASE(RIGHT(item, LENGTH(item) - 1)) ) AS item, CONCAT(UCASE(LEFT(category, 1)), LCASE(RIGHT(category, LENGTH(category) - 1)) ) AS category, quantity, price FROM {myTables.galleria};"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
 # Product view for editing inventory
 @app.route('/edit_inv', methods=['GET'])
 def view_product_inv():
-    sqlStatement = "SELECT * FROM product"
+    sqlStatement = f"SELECT * FROM {myTables.product}"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 # ========================= View Pages =========================
@@ -82,7 +75,8 @@ def addProdInven():
     item = request.json.get("itemName")
     price = request.json.get("price")
 
-    sqlStatement = "INSERT INTO product (category_name, product_name, price) VALUES ('%s','%s','%s')" % (category, item, price)
+    # Insert new entry based on user-inputted values
+    sqlStatement = f"INSERT INTO {myTables.product} (category_name, product_name, price) VALUES ('%s','%s','%s')" % (category, item, price)
     execute_query(conn, sqlStatement)
     return "Successfully added!"
 
@@ -90,13 +84,15 @@ def addProdInven():
 @app.route('/api/del_inventory', methods=['DELETE'])
 def delProdInven():
     item = request.json.get("itemName")
-
-    sqlStatement = "SELECT product_id FROM product WHERE product_name = '%s'" % (item)
+    
+    # Delete entry solely from item name
+    sqlStatement = f"SELECT product_id FROM {myTables.product} WHERE product_name = '%s'" % (item)
     productID = execute_read_query(conn, sqlStatement)
     productID = productID[0]['product_id']
-
+    
+    # Check if item name exists
     if productID:
-        sqlStatement = "DELETE FROM product WHERE product_id = '%s'" % (productID)
+        sqlStatement = f"DELETE FROM {myTables.product} WHERE product_id = '%s'" % (productID)
         execute_query(conn, sqlStatement)
         return "Successfully deleted!"
     else:
@@ -110,11 +106,13 @@ def updateInven():
     item = request.json.get("itemName")
     price = request.json.get("price")
 
-    sqlStatement = "SELECT product_id FROM product WHERE product_name = '%s'" % (updateItem)
+    # Get id by using item name
+    sqlStatement = f"SELECT product_id FROM {myTables.product} WHERE product_name = '%s'" % (updateItem)
     productID = execute_read_query(conn, sqlStatement)
     productID = productID[0]['product_id']
 
-    sqlStatement = "UPDATE product SET category_name='%s',product_name='%s',price='%s' WHERE product_id='%s'" % (category,item,price,productID)
+    # Update entry with grabbed id based on users inputted item name
+    sqlStatement = f"UPDATE {myTables.product} SET category_name='%s',product_name='%s',price='%s' WHERE product_id='%s'" % (category,item,price,productID)
     execute_query(conn, sqlStatement)
     return "Successfully updated!"
 
@@ -125,10 +123,13 @@ def updateQuant():
     quantities = request.json.get("quantity")
     ids = request.json.get("id")
     table = request.json.get("table")
-
+    
+    # for loop using the sequential id, quantity, origQuantity in each iteration
     for id, quantity, origQuantity in zip(ids, quantities, origQuantities):
+        # If no change between quantities, do nothing
         if origQuantity == quantity:
             continue
+        # Update quantity through SQL if quantity is changed (per item-based)
         else:
             sqlStatement = "UPDATE %s SET quantity='%s' WHERE id='%s'" % (table, quantity, id)
             execute_query(conn, sqlStatement)
