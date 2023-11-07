@@ -9,3 +9,8 @@ class Tables: # 'sql table names'
     product = 'product'
     sugarland = 'sugarInventory'
     galleria = 'galloInventory'
+
+"""
+References
+    CIS3368 Code
+"""

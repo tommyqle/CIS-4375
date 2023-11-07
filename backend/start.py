@@ -88,15 +88,18 @@ def delProdInven():
     # Delete entry solely from item name
     sqlStatement = f"SELECT product_id FROM {myTables.product} WHERE product_name = '%s'" % (item)
     productID = execute_read_query(conn, sqlStatement)
-    productID = productID[0]['product_id']
     
     # Check if item name exists
     if productID:
-        sqlStatement = f"DELETE FROM {myTables.product} WHERE product_id = '%s'" % (productID)
-        execute_query(conn, sqlStatement)
-        return "Successfully deleted!"
+        if len(productID) > 0:
+            productID = productID[0]['product_id']
+            sqlStatement = f"DELETE FROM {myTables.product} WHERE product_id = '%s'" % (productID)
+            execute_query(conn, sqlStatement)
+            return "Successfully deleted!"
+        else:
+            return jsonify({"message": "No Item ID found."}), 404
     else:
-        return "No productID found."
+        return jsonify({"message": "No Item ID found."}), 404
 
 # Update to inventory table in database
 @app.route('/api/update_inventory', methods=['POST'])
@@ -140,6 +143,10 @@ def updateQuant():
 
 app.run()
 
-# References
-# CIS3368 Code
-# https://www.w3resource.com/mysql/update-table/update-table.php
+"""
+References
+    CIS3368 Code
+    CIS4339 Code (pulled ideas from code)
+    https://www.w3resource.com/mysql/update-table/update-table.php
+    https://realpython.com/python-zip-function/#looping-over-multiple-iterables
+"""

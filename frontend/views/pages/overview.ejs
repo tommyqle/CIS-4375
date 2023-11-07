@@ -30,7 +30,7 @@
                     <div class="table-responsive col-md-6">
                         <h3 class="text-center">Sugar Land Inventory</h3>
                         <% if (locals.sugar_data) { %>
-                        <table class="table table-sm table-hover border border shadow">
+                        <table class="table table-sm table-hover border shadow">
                                 <thead>
                                     <tr style="--bs-table-bg: #8bd8bd; --bs-table-color: #243665;">
                                         <th scope="col">Item</th>
@@ -57,7 +57,7 @@
                                                     <td scope="row"><%= data.quantity %></td>
                                                     <td scope="row">$<%= data.price %></td>
                                                 </tr>
-                                                <% } %>
+                                            <% } %>
                                         <% }) %>
                                     </div>
                                 </tbody>
@@ -80,12 +80,21 @@
                                 </thead>
                                 <tbody>
                                     <% locals.galleria_data.forEach(function(data) { %>
-                                        <tr>
-                                            <td scope="row"><%= data.item %></td>
-                                            <td scope="row"><%= data.category %></td>
-                                            <td scope="row"><%= data.quantity %></td>
-                                            <td scope="row">$<%= data.price %></td>
-                                        </tr>
+                                        <% if (data.quantity < 3) { %>
+                                            <tr class="table-danger" id="lowStockFilter">
+                                                <td scope="row"><%= data.item %></td>
+                                                <td scope="row"><%= data.category %></td>
+                                                <td scope="row"><%= data.quantity %></td>
+                                                <td scope="row">$<%= data.price %></td>
+                                            </tr>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td scope="row"><%= data.item %></td>
+                                                    <td scope="row"><%= data.category %></td>
+                                                    <td scope="row"><%= data.quantity %></td>
+                                                    <td scope="row">$<%= data.price %></td>
+                                                </tr>
+                                            <% } %>
                                     <% }) %>
                                 </tbody>
                             </table>

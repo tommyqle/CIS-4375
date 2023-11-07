@@ -39,7 +39,7 @@
                     <form action="/edit_productinv" method="post">
                         <div class="form-group m-4">
                             <label for="itemNameInput" class="form-label">Item Name:</label>
-                            <input type="text" class="form-control" id="itemNameInput" name="itemName">
+                            <input type="text" class="form-control" id="itemNameInput" name="itemName" oninput="this.value = this.value.toUpperCase()">
                         </div>
                         <div class="form-group m-4">
                             <label for="categorylist" class="form-label">Category:</label>
@@ -68,7 +68,8 @@
                 <div class="tab-pane fade" id="delete-tab-pane" role="tabpanel" aria-labelledby="delete-tab" tabindex="0">
                     <div class="form-group m-4">
                         <label class="form-label">Item Name:</label>
-                        <input type="text" class="form-control" id="itemName" name="itemName">
+                        <input type="text" class="form-control" id="itemName" name="itemName" oninput="this.value = this.value.toUpperCase()">
+                        <div id="error-message-delete" class="text-danger"></div>
                     </div>
                     <button type="button" id="deleteButton" class="btn buttoncss m-4">
                         Delete
@@ -79,24 +80,24 @@
                     <form action="/update_productinv" method="post">
                         <div class="form-group m-4">
                             <label for="currentitemNameInput" class="form-label">Item Name to Update:</label>
-                            <input type="text" class="form-control" id="currentitemNameInput" name="currentItemName">
+                            <input type="text" class="form-control" id="currentitemNameInput" name="currentItemName" oninput="this.value = this.value.toUpperCase()">
                         </div>
                         <div class="form-group m-4">
                             <label for="itemNameInput" class="form-label">Updated Item Name:</label>
-                            <input type="text" class="form-control" id="itemNameInput" name="itemName">
+                            <input type="text" class="form-control" id="itemNameInput" name="itemName" oninput="this.value = this.value.toUpperCase()">
                         </div>
                         <div class="form-group m-4">
                             <label for="categorylist" class="form-label">Category:</label>
                             <select class="form-select" aria-label="Test" id="categorylist" name="category">
-                                <option>Meats</option>
-                                <option>Breads</option>
-                                <option>Fried</option>
-                                <option>Sauce/Dairy</option>
-                                <option>Veggies/Cheese</option>
-                                <option>Plastic/Papers</option>
-                                <option>Seasonings</option>
-                                <option>Cleaning</option>
-                                <option>Drinks</option>
+                                <option>MEATS</option>
+                                <option>BREADS</option>
+                                <option>FRIED</option>
+                                <option>SAUCE/DAIRY</option>
+                                <option>VEGGIES/CHEESE</option>
+                                <option>PLASTIC/PAPERS</option>
+                                <option>SEASONINGS</option>
+                                <option>CLEANING</option>
+                                <option>DRINKS</option>
                             </select>
                         </div>
                         <div class="form-group m-4">
@@ -110,8 +111,6 @@
                 </div>
             </div>
             </div>
-            
-            
 
             <!-- Inventory table view begins -->
             <% if (locals.data) { %>
@@ -144,6 +143,8 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         var deleteButton = document.getElementById("deleteButton");
+        var errorDelMessageContainer = document.getElementById("error-message-delete");
+
         deleteButton.addEventListener("click", function(event) {
             event.preventDefault();
 
@@ -155,14 +156,14 @@
                 }
             })
             .then((response) => {
-                var result = response.data
-                if (result === 'Successfully deleted!') {
+                if (response.status === 200) {
                     window.location.href = '/edit_inv';
                 } else {
-                    window.location.href = '/overview';
+                    console.error("Unknown error occurred.");
                 }
             })
             .catch((error) => {
+                errorDelMessageContainer.textContent = "Item not found.";
                 console.error(error);
             });
         })
@@ -173,6 +174,8 @@
 
 </html>
 
-<!-- References Used -->
-<!-- https://getbootstrap.com/docs/5.3/components/navs-tabs/#javascript-behavior -->
-<!-- https://getbootstrap.com/docs/5.3/forms/overview/ -->
+<!-- References Used
+    https://getbootstrap.com/docs/5.3/components/navs-tabs/#javascript-behavior
+    https://getbootstrap.com/docs/5.3/forms/overview/
+    https://www.w3schools.com/jsref/event_oninput.asp
+-->
