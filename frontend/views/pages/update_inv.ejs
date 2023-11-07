@@ -25,7 +25,15 @@
                 <div class="container-fluid">
                     <!-- Inventory Update Button-->
                     <form action="/update_quantity" method="post">
+                        
                         <button type="submit" class="btn buttoncss m-4">Update</button>
+                            <div class="spinner-container align-items-center" style="display: none;" id="updateSpinner">
+                                <div class="spinner-border spinnercss" role="status" id="updateSpinner">
+                                    <span class="visually-hidden">Updating...</span>
+                                </div>
+                                <span class="ms-2">Updating...</span>
+                            </div>
+                           
                         <input type="hidden" value="<%= table %>" name="table">
                         <table class="table">
                             <thead>
@@ -58,6 +66,69 @@
         </div>
         <!-- Content area ends -->
     </div>
+
+    <script>
+        const apiEndpoint = '/api/update_quantity';
+    
+        const origQuantities = [/* Your original quantities here */];
+        const quantities = [/* Your new quantities here */];
+        const ids = [/* Your item IDs here */];
+        const table = 'your_table_name';
+    
+        const requestData = {
+            origQuantities: origQuantities,
+            quantities: quantities,
+            ids: ids,
+            table: table,
+        };
+    
+        const updateButton = document.querySelector('.btn.buttoncss');
+        const updateSpinner = document.getElementById('updateSpinner');
+    
+        updateButton.addEventListener('click', function () {
+            // Show the spinner when the button is clicked
+            updateSpinner.style.display = 'inline-block';
+            
+    
+            // Optionally, you can disable the button to prevent multiple clicks while updating
+            updateButton.setAttribute('disabled', 'true');
+    
+            // Send the API request
+            fetch(apiEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData),
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then((data) => {
+                // Handle success, e.g., display a success message to the user
+                console.log(data); // Log to console (for debugging)
+            })
+            .catch((error) => {
+                // Handle API call errors here, e.g., display an error message
+                console.error(error);
+            })
+            .finally(() => {
+                // Delay hiding the spinner by a few seconds (adjust the duration as needed)
+                setTimeout(() => {
+                    // Hide the spinner and enable the button after the delay
+                    updateSpinner.style.display = 'none';
+                    updateButton.removeAttribute('disabled');
+                }, 2000); // Adjust the duration (in milliseconds) as needed
+            });
+        });
+    
+        // Initially hide the spinner
+        updateSpinner.style.display = 'none';
+    </script>
+    
 </body>
 
 </html>
