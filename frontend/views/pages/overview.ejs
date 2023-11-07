@@ -22,7 +22,6 @@
                 <label class="form-check-label" for="lowStockToggle">Highlight Low Stock</label>
             </div>
 
-
             <!-- Inventory table view begins -->
             <div class="container">
                 <div class="row">
@@ -43,7 +42,7 @@
                                     <div>
                                         <% locals.sugar_data.forEach(function(data) { %>
                                             <!-- Highlight red for low stock - number can be changed -->
-                                            <% if (data.quantity < 3) { %>
+                                            <% if (data.quantity < 5) { %>
                                             <tr class="table-danger" id="lowStockFilter">
                                                 <td scope="row"><%= data.item %></td>
                                                 <td scope="row"><%= data.category %></td>
@@ -80,12 +79,21 @@
                                 </thead>
                                 <tbody>
                                     <% locals.galleria_data.forEach(function(data) { %>
-                                        <tr>
+                                        <% if (data.quantity < 5) { %>
+                                        <tr class="table-danger" id="lowStockFilter">
                                             <td scope="row"><%= data.item %></td>
                                             <td scope="row"><%= data.category %></td>
                                             <td scope="row"><%= data.quantity %></td>
                                             <td scope="row">$<%= data.price %></td>
                                         </tr>
+                                        <% } else { %>
+                                            <tr>
+                                                <td scope="row"><%= data.item %></td>
+                                                <td scope="row"><%= data.category %></td>
+                                                <td scope="row"><%= data.quantity %></td>
+                                                <td scope="row">$<%= data.price %></td>
+                                            </tr>
+                                        <% } %>
                                     <% }) %>
                                 </tbody>
                             </table>
