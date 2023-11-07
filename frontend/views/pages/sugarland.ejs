@@ -16,6 +16,12 @@
                 Sugar Land Inventory Count
             </h1>
             
+            <!-- Toggle switch for low stock highlighting -->
+            <div class="form-check form-switch m-4">
+                <input class="form-check-input togglecss" type="checkbox" id="lowStockToggle">
+                <label class="form-check-label" for="lowStockToggle">Highlight Low Stock</label>
+            </div>
+
             <!-- Inventory Count Button-->
             <a href="/update_inv/sugarland" class="nav-link countlink px-2 m-4">
                 <i class="fs-4 bi bi-clipboard-check"></i> <span class="ms-1 d-none d-sm-inline">Inventory Count</span>
@@ -35,14 +41,24 @@
                     </thead>
                     <tbody>
                         <% locals.data.forEach(function(data) { %>
-                            <tr>
+                            <!-- Highlight red for low stock - number can be changed -->
+                            <% if (data.quantity < 5) { %>
+                            <tr class="table-danger" id="lowStockFilter">
                                 <td scope="row"><%= data.item %></td>
                                 <td scope="row"><%= data.category %></td>
                                 <td scope="row"><%= data.quantity %></td>
                                 <td scope="row">$<%= data.price %></td>
                             </tr>
+                            <% } else { %>
+                                <tr>
+                                    <td scope="row"><%= data.item %></td>
+                                    <td scope="row"><%= data.category %></td>
+                                    <td scope="row"><%= data.quantity %></td>
+                                    <td scope="row">$<%= data.price %></td>
+                                </tr>
+                                <% } %>
                         <% }) %>
-                    </tbody>
+                </tbody>
                 </table>
                 </div>
             <% } %>
@@ -50,6 +66,10 @@
         </div>
         <!-- Content area ends -->
     </div>
+
+    <!-- JavaScript for low stock filter toggle -->
+    <%- include('../partials/highlight_toggle'); %>
+
 </body>
 
 </html>
