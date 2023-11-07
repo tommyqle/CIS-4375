@@ -5,3 +5,8 @@ import hashlib
 password = input("Enter password to hash:\n")
 hashedPassword = hashlib.sha256(password.encode()).hexdigest()
 print(hashedPassword)
+
+"""
+References
+    CIS3368 Code
+"""
