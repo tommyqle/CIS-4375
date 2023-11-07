@@ -1,0 +1,33 @@
+<!-- JavaScript for low stock filter toggle -->
+<script>
+    // Get references to the switch
+    const lowStockToggle = document.getElementById('lowStockToggle');
+
+    // Function to update the filtering based on the toggle state
+    function updateFilter() {
+    const rows = document.querySelectorAll('#lowStockFilter'); // Select all rows with id="lowStockFilter"
+
+    rows.forEach(function(row) {
+        const quantityElement = row.querySelector('.quantity'); // Adjust the selector as needed
+        const quantity = quantityElement ? parseInt(quantityElement.innerText) : 0;
+
+        if (lowStockToggle.checked) {
+        // When the switch is checked (ON), highlight low-stock items in red
+        if (quantity < 3) {
+            row.classList.add('table-danger');
+        } else {
+            row.classList.remove('table-danger');
+        }
+        } else {
+        // When the switch is unchecked (OFF), remove the table-danger class from all items
+        row.classList.remove('table-danger');
+        }
+    });
+    }
+
+    // Add an event listener to the switch
+    lowStockToggle.addEventListener('change', updateFilter);
+
+    // Call the function to initialize the filter based on the initial toggle state
+    updateFilter();
+</script> 
