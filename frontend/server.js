@@ -82,8 +82,7 @@ app.post('/update_quantity', requireLogin, function(req, res) {
     origQuantities: origQuantities
   })
   .then((response) => {
-    var result = response.data
-    if (result === 'Successfully updated!') {
+    if (response.status === 200) {
       res.redirect(`/${location}`);
     } else {
       res.redirect('/overview');
@@ -163,8 +162,7 @@ app.post('/edit_productinv', requireLogin, function(req, res) {
     price: price
   })
   .then((response) => {
-    var result = response.data
-    if (result === 'Successfully added!') {
+    if (response.status === 200) {
       res.redirect('/edit_inv');
     } else {
       res.redirect('/overview');
@@ -190,8 +188,7 @@ app.post('/update_productinv', requireLogin, function(req, res) {
     price: price
   })
   .then((response) => {
-    var result = response.data
-    if (result === 'Successfully updated!') {
+    if (response.status === 200) {
       res.redirect('/edit_inv');
     } else {
       res.redirect('/overview');
@@ -212,10 +209,8 @@ app.post('/process_login', function(req, res) {
       username: username,
       password: password
     })
-    .then((response) => {
-      var result = response.data;
-      
-      if (result === 'SUCCESS!') {
+    .then((response) => {      
+      if (response.status === 200) {
         req.session.loggedIn = true;
         // Redirect to the overview page if login is successful
         res.redirect('/overview');
