@@ -47,15 +47,15 @@ def usernamepw():
 # Sugar Land inventory view
 @app.route('/sugarland', methods=['GET'])
 def view_sugarland_inv():
-    # Select * from sugarInventory table but capitalize each entry
-    sqlStatement = f"SELECT id, CONCAT(UCASE(LEFT(item, 1)), LCASE(RIGHT(item, LENGTH(item) - 1)) ) AS item, CONCAT(UCASE(LEFT(category, 1)), LCASE(RIGHT(category, LENGTH(category) - 1)) ) AS category, quantity, price FROM {myTables.sugarland};"
+    # Select * from sugarInventory table and make all caps
+    sqlStatement = f"SELECT id, UPPER(item) AS item, UPPER(category) AS category, quantity, price FROM {myTables.sugarland};"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
 # Galleria inventory view - copy of /sugarland
 @app.route('/galleria', methods=['GET'])
 def view_galleria_inv():
-    sqlStatement = f"SELECT id, CONCAT(UCASE(LEFT(item, 1)), LCASE(RIGHT(item, LENGTH(item) - 1)) ) AS item, CONCAT(UCASE(LEFT(category, 1)), LCASE(RIGHT(category, LENGTH(category) - 1)) ) AS category, quantity, price FROM {myTables.galleria};"
+    sqlStatement = f"SELECT id, UPPER(item) AS item, UPPER(category) AS category, quantity, price FROM {myTables.galleria};"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
