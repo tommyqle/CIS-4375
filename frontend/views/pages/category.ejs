@@ -36,7 +36,11 @@
             <!-- Inventory table view begins -->
             <% if (locals.data) { %>
                 <div class="container-fluid">
-                <table class="table">
+                    <button onclick="printTable()" class="nav-link countlink px-2 m-4">
+                        <i class="fs-4 bi bi-printer"></i>
+                        <span class="ms-1 d-none d-sm-inline">Print Report</span>
+                    </button>
+                <table class="table" id="filterTable">
                     <thead>
                         <tr style="--bs-table-bg: #8bd8bd; --bs-table-color: #243665;">
                             <th scope="col">Location</th>
@@ -49,9 +53,9 @@
                     <tbody>
                         <% locals.data.forEach(function(data) { %>
                             <tr>
-                                <td scope="row"><%= data.tableName %></td>
-                                <td scope="row"><%= data.item %></td>
-                                <td scope="row"><%= data.category %></td>
+                                <td scope="row"><%= data.tableName.toUpperCase() %></td>
+                                <td scope="row"><%= data.item.toUpperCase() %></td>
+                                <td scope="row"><%= data.category.toUpperCase() %></td>
                                 <td scope="row"><%= data.quantity %></td>
                                 <td scope="row">$<%= data.price %></td>
                             </tr>
@@ -71,6 +75,15 @@
         // Submit the form when a category is selected
         document.getElementById('categoryForm').submit();
     });
+
+    function printTable() {
+        var printWindow = window.open('', '_blank');
+        printWindow.document.write('<html><head><title>Low Inventory</title></head><body>');
+        printWindow.document.write(document.getElementById('filterTable').outerHTML);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    }
 </script>
 
 </body>
