@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body>
+    <div class="row g-0 flex-nowrap">
+        <%- include('../partials/sidebar'); %>
+
+        <!-- Content area begins -->
+        <div class="content col">
+            <!-- Page header -->
+            <h1 class="p-4" style="background-color: #8bd8bd; color:#243665;">
+                Filtered Inventory
+            </h1>
+            <form id="categoryForm" action="/report/categoryfilt" method="get">
+                <div class="form-group m-4">
+                    <label for="categorylist" class="form-label">Category:</label>
+                    <select class="form-select" id="categorylist" name="category">
+                        <option disabled selected>Select a category</option>
+                        <option>MEATS</option>
+                        <option>BREADS</option>
+                        <option>FRIED</option>
+                        <option>SAUCE/DAIRY</option>
+                        <option>VEGGIES/CHEESE</option>
+                        <option>PLASTIC/PAPERS</option>
+                        <option>SEASONINGS</option>
+                        <option>CLEANING</option>
+                        <option>DRINKS</option>
+                    </select>
+                </div>
+            </form>
+
+            <!-- Inventory table view begins -->
+            <% if (locals.data) { %>
+                <div class="container-fluid">
+                <table class="table">
+                    <thead>
+                        <tr style="--bs-table-bg: #8bd8bd; --bs-table-color: #243665;">
+                            <th scope="col">Location</th>
+                            <th scope="col">Item</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% locals.data.forEach(function(data) { %>
+                            <tr>
+                                <td scope="row"><%= data.tableName %></td>
+                                <td scope="row"><%= data.item %></td>
+                                <td scope="row"><%= data.quantity %></td>
+                                <td scope="row">$<%= data.price %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+                </div>
+            <% } %>
+            <!-- Inventory table view ends -->
+        </div>
+        <!-- Content area ends -->
+    </div>
+
+<script>
+    // Add an event listener to the select element
+    document.getElementById('categorylist').addEventListener('change', function() {
+        // Submit the form when a category is selected
+        document.getElementById('categoryForm').submit();
+    });
+</script>
+
+</body>
+
+</html>
+
+
+<!-- References Used
+    https://dev.to/codeply/bootstrap-5-sidebar-examples-38pb
+    https://icons.getbootstrap.com/
+    https://getbootstrap.com/docs/5.3/content/tables/
+-->
