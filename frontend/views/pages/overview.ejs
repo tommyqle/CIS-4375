@@ -41,7 +41,7 @@
                                 <tbody>
                                         <% locals.sugar_data.forEach(function(data) { %>
                                             <!-- Highlight red for low stock - number can be changed -->
-                                            <% if (data.quantity < 20) { %>
+                                            <% if (data.quantity < 21) { %>
                                             <tr class="table-danger" id="lowStockFilter">
                                                 <td scope="row"><%= data.item %></td>
                                                 <td scope="row"><%= data.category %></td>
