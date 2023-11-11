@@ -117,18 +117,6 @@ app.get('/edit_inv', requireLogin, function(req, res) {
   })
 });
 
-/* Reports page
-app.get('/report', requireLogin, function(req, res) {
-  axios.get('http://127.0.0.1:5000/report')
-  .then((response)=>{
-    var data = response.data;
-
-    res.render('pages/edit_inv', {
-      data: data
-    })
-  })
-});
-*/
 app.get('/report', function(req, res) {
   res.render('pages/report')
 });
