@@ -140,6 +140,15 @@ def updateQuant():
 
 # ============================ CRUD =============================
 
+# ============================ Reports===========================
+@app.route('/report/total', methods=['GET'])
+def totalPrice():
+    # Select calculated total from both locations
+    sqlStatement = f"SELECT 'galleria' as tableName, SUM(quantity * price) AS totalValue FROM {myTables.galleria} UNION ALL SELECT 'sugarland' as tableName, SUM(quantity * price) AS total_value FROM {myTables.sugarland};"
+    viewTable = execute_read_query(conn, sqlStatement)
+    return jsonify(viewTable)
+
+# ============================ Reports===========================
 
 app.run()
 

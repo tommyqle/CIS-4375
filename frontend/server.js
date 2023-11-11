@@ -215,6 +215,18 @@ app.post('/update_productinv', requireLogin, function(req, res) {
   });
 });
 
+// Report total
+app.get('/report/total', requireLogin, function(req, res) {
+  axios.get('http://127.0.0.1:5000/report/total')
+  .then((response)=>{
+    var data = response.data;
+
+    res.render('pages/total', {
+      data: data
+    })
+  })    
+});
+
 // Login process
 app.post('/process_login', function(req, res) {
     var username = req.body.username;
