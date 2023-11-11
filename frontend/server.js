@@ -236,6 +236,17 @@ app.get('/report/categoryfilt', requireLogin, function(req, res) {
   })    
 });
 
+app.get('/report/low', requireLogin, function(req, res) {
+  axios.get('http://127.0.0.1:5000/report/low')
+  .then((response)=>{
+    var data = response.data;
+
+    res.render('pages/low', {
+      data: data
+    })
+  })    
+});
+
 // Login process
 app.post('/process_login', function(req, res) {
     var username = req.body.username;

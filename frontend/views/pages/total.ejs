@@ -19,7 +19,11 @@
             <!-- Inventory table view begins -->
             <% if (locals.data) { %>
                 <div class="container-fluid">
-                <table class="table">
+                <button onclick="printTable()" class="nav-link countlink px-2 m-4">
+                    <i class="fs-4 bi bi-printer"></i>
+                    <span class="ms-1 d-none d-sm-inline">Print Report</span>
+                </button>
+                <table class="table" id="totalTable">
                     <thead>
                         <tr style="--bs-table-bg: #8bd8bd; --bs-table-color: #243665;">
                             <th scope="col">Location</th>
@@ -29,8 +33,8 @@
                     <tbody>
                         <% locals.data.forEach(function(data) { %>
                             <tr>
-                                <td scope="row"><%= data.tableName %></td>
-                                <td scope="row"><%= data.totalValue %></td>
+                                <td scope="row"><%= data.tableName.toUpperCase() %></td>
+                                <td scope="row">$<%= parseFloat(data.totalValue).toLocaleString() %></td>
                             </tr>
                         <% }) %>
                     </tbody>
@@ -41,6 +45,17 @@
         </div>
         <!-- Content area ends -->
     </div>
+
+<script>
+    function printTable() {
+        var printWindow = window.open('', '_blank');
+        printWindow.document.write('<html><head><title>Low Inventory</title></head><body>');
+        printWindow.document.write(document.getElementById('totalTable').outerHTML);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    }
+</script>
 
 </body>
 

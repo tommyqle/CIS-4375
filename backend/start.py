@@ -153,9 +153,16 @@ def totalPrice():
 @app.route('/report/category', methods=['GET'])
 def categoryReport():
     category = request.args.get("category")
-    print(category)
     # Select calculated total from both locations
-    sqlStatement = f"SELECT 'Galleria' as tableName, item, quantity, price FROM {myTables.galleria} WHERE category = '{category}' UNION ALL SELECT 'Sugarland' as tableName, item, quantity, price FROM {myTables.sugarland} WHERE category = '{category}'"
+    sqlStatement = f"SELECT 'Galleria' as tableName, item, category, quantity, price FROM {myTables.galleria} WHERE category = '{category}' UNION ALL SELECT 'Sugarland' as tableName, item, category, quantity, price FROM {myTables.sugarland} WHERE category = '{category}'"
+    viewTable = execute_read_query(conn, sqlStatement)
+    return jsonify(viewTable)
+
+# Low stock report
+@app.route('/report/low', methods=['GET'])
+def lowStock():
+    # Select all stock from both inventory tables under 20
+    sqlStatement = f"SELECT 'galleria' as tableName, item, category, quantity, price FROM {myTables.galleria} WHERE quantity < 20 UNION ALL SELECT 'sugarland' as tableName, item, category, quantity, price FROM {myTables.sugarland} WHERE quantity < 20 ORDER BY quantity ASC"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
