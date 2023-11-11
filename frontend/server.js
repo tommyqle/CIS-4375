@@ -227,6 +227,27 @@ app.get('/report/total', requireLogin, function(req, res) {
   })    
 });
 
+// Report category
+app.get('/report/category', requireLogin, function(req, res) {
+  res.render('pages/category')
+});
+
+app.get('/report/categoryfilt', requireLogin, function(req, res) {
+  var category = req.query.category.toLowerCase();
+  axios.get('http://127.0.0.1:5000/report/category', {
+    params: {
+      category: category
+    }
+  })
+  .then((response)=>{
+    var data = response.data;
+
+    res.render('pages/category', {
+      data: data
+    })
+  })    
+});
+
 // Login process
 app.post('/process_login', function(req, res) {
     var username = req.body.username;

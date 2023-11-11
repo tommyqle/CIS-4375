@@ -141,10 +141,21 @@ def updateQuant():
 # ============================ CRUD =============================
 
 # ============================ Reports===========================
+# Total $ value from both tables
 @app.route('/report/total', methods=['GET'])
 def totalPrice():
     # Select calculated total from both locations
-    sqlStatement = f"SELECT 'galleria' as tableName, SUM(quantity * price) AS totalValue FROM {myTables.galleria} UNION ALL SELECT 'sugarland' as tableName, SUM(quantity * price) AS total_value FROM {myTables.sugarland};"
+    sqlStatement = f"SELECT 'galleria' as tableName, SUM(quantity * price) AS totalValue FROM {myTables.galleria} UNION ALL SELECT 'sugarland' as tableName, SUM(quantity * price) AS total_value FROM {myTables.sugarland}"
+    viewTable = execute_read_query(conn, sqlStatement)
+    return jsonify(viewTable)
+
+# List values from both tables based on filter
+@app.route('/report/category', methods=['GET'])
+def categoryReport():
+    category = request.args.get("category")
+    print(category)
+    # Select calculated total from both locations
+    sqlStatement = f"SELECT 'Galleria' as tableName, item, quantity, price FROM {myTables.galleria} WHERE category = '{category}' UNION ALL SELECT 'Sugarland' as tableName, item, quantity, price FROM {myTables.sugarland} WHERE category = '{category}'"
     viewTable = execute_read_query(conn, sqlStatement)
     return jsonify(viewTable)
 
