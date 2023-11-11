@@ -19,8 +19,8 @@
 
             <!-- Add, delete, and update tabs -->
             <div class="card m-4 shadow">
-                <div class="card-header">
-                    <ul class="nav nav-tabs card-header-tabs" id="editTab" role="tablist">
+                <div class="card-header" style="background-color: #243665;">
+                    <ul class="nav nav-tabs nav-fill card-header-tabs" id="editTab" role="tablist">
                         <li class="nav-item" role="presentation">
                            <button class="nav-link active" id="add-tab" data-bs-toggle="tab" data-bs-target="#add-tab-pane" type="button" role="tab" aria-controls="add-tab-pane" aria-selected="true"><i class="fs-4 bi bi-plus-circle"></i> Add</button>
                         </li>
@@ -115,7 +115,7 @@
             <!-- Inventory table view begins -->
             <% if (locals.data) { %>
                 <div class="container-fluid">
-                <table class="table">
+                <table class="table table-hover">
                     <thead>
                         <tr style="--bs-table-bg: #8bd8bd; --bs-table-color: #243665;">
                             <th scope="col">Item</th>
