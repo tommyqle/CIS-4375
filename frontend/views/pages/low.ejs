@@ -19,11 +19,11 @@
             <!-- Inventory table view begins -->
             <% if (locals.data) { %>
                 <div class="container-fluid">
-                    <button onclick="printTable()" class="nav-link countlink px-2 m-4">
+                    <button onclick="printTable()" class="btn buttoncss px-2 m-4">
                         <i class="fs-4 bi bi-printer"></i>
                         <span class="ms-1 d-none d-sm-inline">Print Report</span>
                     </button>
-                    
+                    <p>Report Generated: <span id="reportDate"></span></p>
                     <table class="table" id="inventoryTable">
                         <thead>
                             <tr style="--bs-table-bg: #8bd8bd; --bs-table-color: #243665;">
@@ -57,11 +57,27 @@
     function printTable() {
         var printWindow = window.open('', '_blank');
         printWindow.document.write('<html><head><title>Low Inventory</title></head><body>');
+        const currentDateTime = new Date();
+        const formattedDateTime = formatDateTime(currentDateTime);
+        printWindow.document.write('<p style="text-align: left;">Report Generated: ' + formattedDateTime + '</p>');
         printWindow.document.write(document.getElementById('inventoryTable').outerHTML);
         printWindow.document.write('</body></html>');
         printWindow.document.close();
         printWindow.print();
     }
+
+    // Function to format the date and time as "MM/DD/YYYY HH:mm:ss"
+    function formatDateTime(date) {
+            const options = {
+                year: 'numeric', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit', second: '2-digit',
+                hour12: true
+            };
+            return date.toLocaleString('en-US', options);
+        }
+    
+        // Update the report date element with the current date and time
+        document.getElementById('reportDate').textContent = formatDateTime(new Date());
 </script>
 
 </body>
