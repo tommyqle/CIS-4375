@@ -209,7 +209,7 @@ app.get('/report/total', requireLogin, function(req, res) {
   .then((response)=>{
     var data = response.data;
 
-    res.render('pages/total', {
+    res.render('pages/reports/total', {
       data: data
     })
   })    
@@ -217,7 +217,7 @@ app.get('/report/total', requireLogin, function(req, res) {
 
 // Report category
 app.get('/report/category', requireLogin, function(req, res) {
-  res.render('pages/category')
+  res.render('pages/reports/category')
 });
 
 app.get('/report/categoryfilt', requireLogin, function(req, res) {
@@ -230,7 +230,7 @@ app.get('/report/categoryfilt', requireLogin, function(req, res) {
   .then((response)=>{
     var data = response.data;
 
-    res.render('pages/category', {
+    res.render('pages/reports/category', {
       data: data
     })
   })    
@@ -241,7 +241,7 @@ app.get('/report/low', requireLogin, function(req, res) {
   .then((response)=>{
     var data = response.data;
 
-    res.render('pages/low', {
+    res.render('pages/reports/low', {
       data: data
     })
   })    

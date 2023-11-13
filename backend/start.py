@@ -75,9 +75,17 @@ def addProdInven():
     item = request.json.get("itemName")
     price = request.json.get("price")
 
+    inventoryTables = [myTables.sugarland, myTables.galleria]
+
     # Insert new entry based on user-inputted values
     sqlStatement = f"INSERT INTO {myTables.product} (category_name, product_name, price) VALUES ('%s','%s','%s')" % (category, item, price)
     execute_query(conn, sqlStatement)
+
+    # Insert new entry into both inventory tables
+    for i in range(len(inventoryTables)):
+        sqlStatement = f"INSERT INTO {inventoryTables[i]} (category, item, price) VALUES ('%s','%s','%s')" % (category, item, price)
+        execute_query(conn, sqlStatement)
+
     return "Successfully added!"
 
 # Delete from product table in database
@@ -95,6 +103,13 @@ def delProdInven():
             productID = productID[0]['product_id']
             sqlStatement = f"DELETE FROM {myTables.product} WHERE product_id = '%s'" % (productID)
             execute_query(conn, sqlStatement)
+
+            inventoryTables = [myTables.sugarland, myTables.galleria]
+            
+            for i in range(len(inventoryTables)):
+                sqlStatement = f"DELETE FROM {inventoryTables[i]} WHERE item = '%s'" % (item)
+                execute_query(conn, sqlStatement)
+
             return "Successfully deleted!"
         else:
             return jsonify({"message": "No Item ID found."}), 404
