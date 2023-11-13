@@ -13,24 +13,46 @@
         <div class="content col">
             <!-- Page header -->
             <h1 class="p-4" style="background-color: #8bd8bd; color:#243665;">
-                Galleria Inventory Count
+                Galleria Inventory
             </h1>        
             
-            <!-- Toggle switch for low stock highlighting -->
-            <div class="form-check form-switch m-4">
-                <input class="form-check-input togglecss" type="checkbox" id="lowStockToggle">
-                <label class="form-check-label" for="lowStockToggle">Highlight Low Stock</label>
-            </div>
+            <!-- Row for toggle switch, inventory button, and sort dropdown -->
+            <div class="container">
+                <div class="row align-items-center">
+                    <!-- Toggle switch for low stock highlighting -->
+                    <div class="form-check form-switch m-4 col">
+                        <input class="form-check-input form-sm togglecss" type="checkbox" id="lowStockToggle">
+                        <label class="form-check-label" for="lowStockToggle">Highlight Low Stock</label>
+                    </div>
 
-            <!-- Inventory Count Button-->
-            <a href="/update_inv/galleria" class="nav-link countlink px-2 m-4">
-                <i class="fs-4 bi bi-clipboard-check"></i> <span class="ms-1 d-none d-sm-inline">Inventory Count</span>
-            </a>
+                     <!-- Inventory Count Button-->
+                    <a href="/update_inv/galleria" class="nav-link countlink px-2 m-4">
+                        <i class="fs-4 bi bi-clipboard-check"></i> <span class="ms-1 d-none d-sm-inline">Inventory Count</span>
+                    </a>
+
+                    <!-- Sort By Button -->
+                    <div class="dropdown m-4 col text-end">
+                        <button class="btn dropdown-toggle m-4" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="sortByButton" style="border-color: #243665;">
+                            Sort By
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" id="sortByItem">Item (Ascending)</a></li>
+                            <li><a class="dropdown-item" href="#" id="sortByItemDesc">Item (Descending)</a></li>
+                            <li><a class="dropdown-item" href="#" id="sortByCategory">Category (Ascending)</a></li>
+                            <li><a class="dropdown-item" href="#" id="sortByCategoryDesc">Category (Descending)</a></li>
+                            <li><a class="dropdown-item" href="#" id="sortByQuantity">Quantity (Ascending)</a></li>
+                            <li><a class="dropdown-item" href="#" id="sortByQuantityDesc">Quantity (Descending)</a></li>
+                            <li><a class="dropdown-item" href="#" id="sortByPrice">Price (Ascending)</a></li>
+                            <li><a class="dropdown-item" href="#" id="sortByPriceDesc">Price (Descending)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
             
             <!-- Inventory table view begins -->
             <% if (locals.data) { %>
                 <div class="container-fluid">
-                <table class="table">
+                <table class="table" id="galleriaTable">
                     <thead>
                         <tr style="--bs-table-bg: #8bd8bd; --bs-table-color: #243665;">
                             <th scope="col">Item</th>
@@ -68,6 +90,116 @@
 
     <!-- JavaScript for low stock filter toggle -->
     <%- include('../partials/highlight_toggle'); %>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add event listeners for the "Sort By" options
+            document.getElementById('sortByItem').addEventListener('click', function () {
+                sortTable('item', 'galleriaTable');
+                updateSortButtonText('Item (Ascending)');
+            });
+        
+            document.getElementById('sortByItemDesc').addEventListener('click', function () {
+                sortTableDesc('item', 'galleriaTable');
+                updateSortButtonText('Item (Descending)');
+            });
+        
+            document.getElementById('sortByCategory').addEventListener('click', function () {
+                sortTable('category', 'galleriaTable');
+                updateSortButtonText('Category (Ascending)');
+            });
+        
+            document.getElementById('sortByCategoryDesc').addEventListener('click', function () {
+                sortTableDesc('category', 'galleriaTable');
+                updateSortButtonText('Category (Descending)');
+            });
+        
+            document.getElementById('sortByQuantity').addEventListener('click', function () {
+                sortNumericColumn('quantity', 'galleriaTable');
+                updateSortButtonText('Quantity (Ascending)');
+            });
+        
+            document.getElementById('sortByQuantityDesc').addEventListener('click', function () {
+                sortNumericColumnDesc('quantity', 'galleriaTable');
+                updateSortButtonText('Quantity (Descending)');
+            });
+        
+            document.getElementById('sortByPrice').addEventListener('click', function () {
+                sortNumericColumn('price', 'galleriaTable');
+                updateSortButtonText('Price (Ascending)');
+            });
+        
+            document.getElementById('sortByPriceDesc').addEventListener('click', function () {
+                sortNumericColumnDesc('price', 'galleriaTable');
+                updateSortButtonText('Price (Descending)');
+            });
+        });
+        
+        function sortTable(column, tableId) {
+            const table = document.getElementById(tableId);
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.getElementsByTagName('tr'));
+        
+            rows.sort((a, b) => {
+                const valueA = a.cells[column === 'item' ? 0 : 1].textContent.toUpperCase();
+                const valueB = b.cells[column === 'item' ? 0 : 1].textContent.toUpperCase();
+        
+                return valueA.localeCompare(valueB);
+            });
+        
+            rows.forEach(row => tbody.appendChild(row));
+        }
+        
+        function sortTableDesc(column, tableId) {
+            const table = document.getElementById(tableId);
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.getElementsByTagName('tr'));
+        
+            rows.sort((a, b) => {
+                const valueA = a.cells[column === 'item' ? 0 : 1].textContent.toUpperCase();
+                const valueB = b.cells[column === 'item' ? 0 : 1].textContent.toUpperCase();
+        
+                return valueB.localeCompare(valueA);
+            });
+        
+            rows.forEach(row => tbody.appendChild(row));
+        }
+        
+        function sortNumericColumn(column, tableId) {
+            const table = document.getElementById(tableId);
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.getElementsByTagName('tr'));
+        
+            rows.sort((a, b) => {
+                const valueA = parseFloat(a.cells[column === 'price' ? 3 : 2].textContent.replace('$', ''));
+                const valueB = parseFloat(b.cells[column === 'price' ? 3 : 2].textContent.replace('$', ''));
+        
+                return valueA - valueB;
+            });
+        
+            rows.forEach(row => tbody.appendChild(row));
+        }
+        
+        function sortNumericColumnDesc(column, tableId) {
+            const table = document.getElementById(tableId);
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.getElementsByTagName('tr'));
+        
+            rows.sort((a, b) => {
+                const valueA = parseFloat(a.cells[column === 'price' ? 3 : 2].textContent.replace('$', ''));
+                const valueB = parseFloat(b.cells[column === 'price' ? 3 : 2].textContent.replace('$', ''));
+        
+                return valueB - valueA;
+            });
+        
+            rows.forEach(row => tbody.appendChild(row));
+        }
+        
+        function updateSortButtonText(column) {
+            const buttonText = `Sort By: ${column}`;
+            document.getElementById('sortByButton').textContent = buttonText;
+        }
+        </script>
 
 </body>
 

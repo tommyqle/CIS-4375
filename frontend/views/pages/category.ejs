@@ -13,13 +13,13 @@
         <div class="content col">
             <!-- Page header -->
             <h1 class="p-4" style="background-color: #8bd8bd; color:#243665;">
-                Filtered Inventory
+                Inventory by Category Report
             </h1>
             <form id="categoryForm" action="/report/categoryfilt" method="get">
                 <div class="form-group m-4">
                     <label for="categorylist" class="form-label">Category:</label>
                     <select class="form-select" id="categorylist" name="category">
-                        <option disabled selected>Select a category</option>
+                        <option disabled selected>Select a Category</option>
                         <option>MEATS</option>
                         <option>BREADS</option>
                         <option>FRIED</option>
@@ -79,7 +79,7 @@
     
         function printTable() {
             var printWindow = window.open('', '_blank');
-            printWindow.document.write('<html><head><title>Low Inventory</title></head><body>');
+            printWindow.document.write('<html><head><title>Inventory by Category</title></head><body>');
             const currentDateTime = new Date();
             const formattedDateTime = formatDateTime(currentDateTime);
             printWindow.document.write('<p style="text-align: left;">Report Generated: ' + formattedDateTime + '</p>');
