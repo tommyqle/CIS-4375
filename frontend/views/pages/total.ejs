@@ -13,7 +13,7 @@
         <div class="content col">
             <!-- Page header -->
             <h1 class="p-4" style="background-color: #8bd8bd; color:#243665;">
-                Total Price
+                Total Value Report
             </h1>
 
             <!-- Inventory table view begins -->
@@ -50,7 +50,7 @@
 <script>
     function printTable() {
         var printWindow = window.open('', '_blank');
-        printWindow.document.write('<html><head><title>Low Inventory</title></head><body>');
+        printWindow.document.write('<html><head><title>Total Value</title></head><body>');
         const currentDateTime = new Date();
         const formattedDateTime = formatDateTime(currentDateTime);
         printWindow.document.write('<p style="text-align: left;">Report Generated: ' + formattedDateTime + '</p>');
