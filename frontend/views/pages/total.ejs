@@ -35,7 +35,7 @@
                         <% locals.data.forEach(function(data) { %>
                             <tr>
                                 <td scope="row"><%= data.tableName.toUpperCase() %></td>
-                                <td scope="row">$<%= parseFloat(data.totalValue).toLocaleString() %></td>
+                                <td scope="row">$<%= parseFloat(data.totalValue).toFixed(2).toLocaleString() %></td>
                             </tr>
                         <% }) %>
                     </tbody>

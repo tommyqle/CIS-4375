@@ -1,0 +1,117 @@
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Add event listeners for the "Sort By" options
+    document.getElementById('sortByItem').addEventListener('click', function () {
+        sortTable('item', 'sugarTable');
+        sortTable('item', 'galleriaTable');
+        updateSortButtonText('Item (Ascending)');
+    });
+
+    document.getElementById('sortByItemDesc').addEventListener('click', function () {
+        sortTableDesc('item', 'sugarTable');
+        sortTableDesc('item', 'galleriaTable');
+        updateSortButtonText('Item (Descending)');
+    });
+
+    document.getElementById('sortByCategory').addEventListener('click', function () {
+        sortTable('category', 'sugarTable');
+        sortTable('category', 'galleriaTable');
+        updateSortButtonText('Category (Ascending)');
+    });
+
+    document.getElementById('sortByCategoryDesc').addEventListener('click', function () {
+        sortTableDesc('category', 'sugarTable');
+        sortTableDesc('category', 'galleriaTable');
+        updateSortButtonText('Category (Descending)');
+    });
+
+    document.getElementById('sortByQuantity').addEventListener('click', function () {
+        sortNumericColumn('quantity', 'sugarTable');
+        sortNumericColumn('quantity', 'galleriaTable');
+        updateSortButtonText('Quantity (Ascending)');
+    });
+
+    document.getElementById('sortByQuantityDesc').addEventListener('click', function () {
+        sortNumericColumnDesc('quantity', 'sugarTable');
+        sortNumericColumnDesc('quantity', 'galleriaTable');
+        updateSortButtonText('Quantity (Descending)');
+    });
+
+    document.getElementById('sortByPrice').addEventListener('click', function () {
+        sortNumericColumn('price', 'sugarTable');
+        sortNumericColumn('price', 'galleriaTable');
+        updateSortButtonText('Price (Ascending)');
+    });
+
+    document.getElementById('sortByPriceDesc').addEventListener('click', function () {
+        sortNumericColumnDesc('price', 'sugarTable');
+        sortNumericColumnDesc('price', 'galleriaTable');
+        updateSortButtonText('Price (Descending)');
+    });
+});
+
+function sortTable(column, tableId) {
+    const table = document.getElementById(tableId);
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.getElementsByTagName('tr'));
+
+    rows.sort((a, b) => {
+        const valueA = a.cells[column === 'item' ? 0 : 1].textContent.toUpperCase();
+        const valueB = b.cells[column === 'item' ? 0 : 1].textContent.toUpperCase();
+
+        return valueA.localeCompare(valueB);
+    });
+
+    rows.forEach(row => tbody.appendChild(row));
+}
+
+function sortTableDesc(column, tableId) {
+    const table = document.getElementById(tableId);
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.getElementsByTagName('tr'));
+
+    rows.sort((a, b) => {
+        const valueA = a.cells[column === 'item' ? 0 : 1].textContent.toUpperCase();
+        const valueB = b.cells[column === 'item' ? 0 : 1].textContent.toUpperCase();
+
+        return valueB.localeCompare(valueA);
+    });
+
+    rows.forEach(row => tbody.appendChild(row));
+}
+
+function sortNumericColumn(column, tableId) {
+    const table = document.getElementById(tableId);
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.getElementsByTagName('tr'));
+
+    rows.sort((a, b) => {
+        const valueA = parseFloat(a.cells[column === 'price' ? 3 : 2].textContent.replace('$', ''));
+        const valueB = parseFloat(b.cells[column === 'price' ? 3 : 2].textContent.replace('$', ''));
+
+        return valueA - valueB;
+    });
+
+    rows.forEach(row => tbody.appendChild(row));
+}
+
+function sortNumericColumnDesc(column, tableId) {
+    const table = document.getElementById(tableId);
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.getElementsByTagName('tr'));
+
+    rows.sort((a, b) => {
+        const valueA = parseFloat(a.cells[column === 'price' ? 3 : 2].textContent.replace('$', ''));
+        const valueB = parseFloat(b.cells[column === 'price' ? 3 : 2].textContent.replace('$', ''));
+
+        return valueB - valueA;
+    });
+
+    rows.forEach(row => tbody.appendChild(row));
+}
+
+function updateSortButtonText(column) {
+    const buttonText = `Sort By: ${column}`;
+    document.getElementById('sortByButton').textContent = buttonText;
+}
+</script>
