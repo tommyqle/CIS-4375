@@ -132,6 +132,13 @@ def updateInven():
     # Update entry with grabbed id based on users inputted item name
     sqlStatement = f"UPDATE {myTables.product} SET category_name='%s',product_name='%s',price='%s' WHERE product_id='%s'" % (category,item,price,productID)
     execute_query(conn, sqlStatement)
+
+    inventoryTables = [myTables.sugarland, myTables.galleria]
+    
+    for i in range(len(inventoryTables)):
+        sqlStatement = f"UPDATE {inventoryTables[i]} SET category='%s', item='%s', price='%s' WHERE item='%s'" % (category, item, price, updateItem)
+        execute_query(conn, sqlStatement)
+
     return "Successfully updated!"
 
 # Update to tables quantity
